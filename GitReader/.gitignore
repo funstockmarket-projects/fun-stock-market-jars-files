@@ -1,0 +1,73 @@
+#############################
+# Java Build Artifacts
+#############################
+*.class
+*.jar
+*.war
+*.ear
+
+# Build directories
+/target/
+/build/
+/out/
+/dist/
+
+# External JARs in lib/
+lib/*.jar
+libs/*.jar
+
+#############################
+# Maven
+#############################
+.m2/
+dependency-reduced-pom.xml
+
+#############################
+# Angular / Node.js
+#############################
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Angular build output
+/dist/
+/.angular/
+/.angular/cache/
+/coverage/
+
+#############################
+# IDEs and Editors
+#############################
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+#############################
+# Logs / Dumps / Temp
+#############################
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.hprof
+*.dump
+*.dmp
+hs_err_pid*
+replay_pid*
+
+#############################
+# OS generated files
+#############################
+.DS_Store
+Thumbs.db
