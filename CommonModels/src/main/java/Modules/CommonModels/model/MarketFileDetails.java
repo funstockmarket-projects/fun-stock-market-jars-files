@@ -16,9 +16,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileDetails implements Serializable {
+public class MarketFileDetails implements Serializable {
     static {
-        log.info("FileDetails Entity Initialized");
+        log.info("MarketFileDetails Entity Initialized");
     }
 
     private String folderName;
@@ -50,7 +50,7 @@ public class FileDetails implements Serializable {
                 || this.fileType == null || this.fileType.isBlank()
                 || this.fileSize == null || this.fileSize <= 0
                 || this.numberOfRecords <= 0) {
-            log.warn("FileDetails is null for FileDetails: {}", this);
+            log.warn("MarketFileDetails is null for MarketFileDetails: {}", this);
             return true;
         } else {
             return false;

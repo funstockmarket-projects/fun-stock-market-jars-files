@@ -23,22 +23,22 @@ public class MarketEvent {
 
     private LocalDateTime localDateTime = LocalDateTime.now();
 
-    private List<FileDetails> fileDetails = new ArrayList<>();
+    private List<MarketFileDetails> marketFileDetails;
 
     public boolean isFileValid() {
         if (this.marketEventName == null || this.marketEventName.getEventName() == null) {
             log.warn("MarketEvents is null for MarketFiles: {}", this);
             return true;
         }
-        if (this.fileDetails == null || this.fileDetails.isEmpty()) {
-            log.warn("FileDetails list is empty for MarketFiles: {}", this);
+        if (this.marketFileDetails == null || this.marketFileDetails.isEmpty()) {
+            log.warn("MarketFileDetails list is empty for MarketFiles: {}", this);
             return true;
         }
-        for (FileDetails fileDetail : this.fileDetails) {
+        for (MarketFileDetails fileDetail : this.marketFileDetails) {
             if (fileDetail.isFileValid()) {
                 fileDetail.setFileValidationStatus(Validations.INVALID);
                 fileDetail.setFileStatus(FileStatus.INCOMPLETE);
-                log.warn("Invalid FileDetails found in MarketFiles: {}", this);
+                log.warn("Invalid MarketFileDetails found in MarketFiles: {}", this);
             } else {
                 fileDetail.setFileValidationStatus(Validations.VALID);
                 fileDetail.setFileStatus(FileStatus.UPDATED);
