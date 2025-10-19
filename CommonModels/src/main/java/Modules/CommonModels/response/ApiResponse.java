@@ -28,10 +28,12 @@ public class ApiResponse<T> {
     public static final Map<String, String> apiURLs = Map.of(
             MONTHLY_PERFORMANCE,
             "http://localhost:9093/api/stocks/monthlyPerformance/holdings",
-            FILES_UPDATED,
-            "http://localhost:9093/api/stocks/market/file/fileNamesBasedOnStatus/updated",
-            FILES_INCOMPLETE,
-            "http://localhost:9093/api/stocks/market/file/fileNamesBasedOnStatus/incomplete",
+            VALIDATED,
+            "http://localhost:9093/api/market/fileData/getFileByValidationStatus/"+VALIDATED,
+            FILES_VALID,
+            "http://localhost:9093/api/market/fileData/getFileByValidationStatus/"+FILES_VALID,
+            FILES_INVALID,
+            "http://localhost:9093/api/market/fileData/getFileByValidationStatus/"+FILES_INVALID,
             SAVE_EVENT,
             "http://localhost:9093/api/stocks/market/event/saveFile"
 

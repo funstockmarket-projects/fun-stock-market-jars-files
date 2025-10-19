@@ -18,7 +18,7 @@ public class DataRetrieve {
 
     static {
         if(IS_FILES_INCOMPLETE){
-            String url = apiURLs.get(FILES_UPDATED);
+            String url = apiURLs.get(VALIDATED);
 
 
             Object rawData = apiConnector(url, HttpMethod.GET, null, new ParameterizedTypeReference<ApiResponse<List<String>>>(){}).getData();

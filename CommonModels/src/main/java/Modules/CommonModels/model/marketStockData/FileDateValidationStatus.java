@@ -1,19 +1,22 @@
 package Modules.CommonModels.model.marketStockData;
 
+import Modules.CommonModels.enums.FileValidationReasons;
 import Modules.CommonModels.enums.Validations;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileDateValidationStatus {
 
     private Validations fileValidationStatus;
-    private List<String> reason;
+    private List<FileValidationReasons> reason;
     private LocalDateTime validationDate = LocalDateTime.now();
 
 

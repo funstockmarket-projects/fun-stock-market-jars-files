@@ -1,19 +1,16 @@
 package Modules.CommonModels.model.marketStockData;
 
 import Modules.CommonModels.enums.MarketEvents;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class EventData {
 
 

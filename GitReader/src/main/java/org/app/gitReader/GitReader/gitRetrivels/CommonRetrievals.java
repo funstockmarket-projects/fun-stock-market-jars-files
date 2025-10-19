@@ -1,11 +1,12 @@
 package org.app.gitReader.GitReader.gitRetrivels;
 
 import Modules.CommonModels.enums.FileStatus;
+import Modules.CommonModels.enums.FileValidationReasons;
 import Modules.CommonModels.enums.MarketEvents;
 import Modules.CommonModels.enums.Validations;
 import Modules.CommonModels.exceptions.ServerExceptions;
-import Modules.CommonModels.model.MarketEvent;
-import Modules.CommonModels.model.MarketFileDetails;
+import Modules.CommonModels.model.marketStockData.FileDateValidationStatus;
+import Modules.CommonModels.model.marketStockData.StockFileDetails;
 import Modules.CommonModels.pojo.FileName;
 import Modules.CommonModels.response.ApiResponse;
 import com.opencsv.CSVReader;
@@ -45,7 +46,7 @@ public class CommonRetrievals {
         entity = new HttpEntity<>(headers);
     }
 
-    protected static Map<String, MarketFileDetails> fetchCsvDownloadUrlsAndNames(String uri) {
+    protected static Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames(String uri) {
 
         if (uri == null || uri.isBlank()) {
             throw new SecurityException("Git Uri is null");
@@ -70,7 +71,7 @@ public class CommonRetrievals {
         //data retrieving from the DataBase MySql
         List<String> fileNamesUpdatedWithStatus = DataRetrieve.fileNamesUpdatedWithStatus;
 
-        Map<String, MarketFileDetails> fileNameAndUri = response.getBody().stream()
+        Map<String, StockFileDetails> fileNameAndUri = response.getBody().stream()
                 .filter(filename -> {
                     String fileName = ((String) (filename.get("name"))).replace(".csv", "");
                     return !fileNamesUpdatedWithStatus.contains(fileName);
@@ -78,33 +79,41 @@ public class CommonRetrievals {
                 .collect(Collectors.toMap(
                         k -> ((String) (k.get("name"))).replace(".csv", ""),
                         v -> {
-                            MarketFileDetails marketFileDetails = new MarketFileDetails();
 
                             String filename = ((String) (v.get("name"))).replace(".csv", "");
                             String fileType = ((String) v.get("name")).substring(((String) v.get("name")).lastIndexOf('.') + 1);
                             String download_url = (String) v.get("download_url");
                             Number sizeNum = (Number) v.get("size");
+
                             long size = sizeNum != null ? sizeNum.longValue() : 0L;
 
-                            marketFileDetails.setFileName(filename);
-                            marketFileDetails.setFileType(fileType);
-                            marketFileDetails.setUri(download_url);
-                            marketFileDetails.setFileSize(size);
-                            marketFileDetails.setFolderName(folderName);
-                            marketFileDetails.setLocalDateTime(LocalDateTime.now());
+                            StockFileDetails stockFileDetails = StockFileDetails.builder()
+                                    .fileName(filename)
+                                    .fileType(fileType)
+                                    .uri(download_url)
+                                    .fileSize(size)
+                                    .folderName(folderName)
+                                    .fileModifiedDate(LocalDateTime.now())
+                                    .build();
 
-                            List<String> alert = gitRetrieveFileValidations(marketFileDetails);
+                            List<FileValidationReasons> alert = gitRetrieveFileValidations(stockFileDetails);
 
-                            if (!alert.contains(" :=Git validation Done")) {
-                                marketFileDetails.setFileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE);
-                                marketFileDetails.setFileStatus(FileStatus.IN_PROGRESS);
+                            if (alert.contains(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL)) {
+                                FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
+                                        .fileValidationStatus(Validations.VALID)
+                                        .validationDate(LocalDateTime.now())
+                                        .reason(alert)
+                                        .build();
+                                stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             } else {
-                                marketFileDetails.setFileValidationStatus(Validations.GIT_FILE_VALIDATION_TRUE);
-                                marketFileDetails.setFileStatus(FileStatus.IN_PROGRESS);
+                                FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
+                                        .fileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE)
+                                        .validationDate(LocalDateTime.now())
+                                        .reason(alert)
+                                        .build();
+                                stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             }
-                            marketFileDetails.setMessageAlert(alert);
-
-                            return marketFileDetails;
+                            return stockFileDetails;
                         }
                 ));
 
@@ -112,34 +121,36 @@ public class CommonRetrievals {
         if (fileNameAndUri.isEmpty()) {
             log.info("No Incomplete files founded in this folder: {}", folderName);
             return Map.of();
+        }else{
+            return fileNameAndUri; //filename, fileDetails
         }
-        return fileNameAndUri;
+
     }
 
-    private static List<String> gitRetrieveFileValidations(MarketFileDetails marketFileDetails) {
-        List<String> alert = new ArrayList<>();
-        if (marketFileDetails.getFileName() == null || marketFileDetails.getFileName().isBlank())
-            alert.add(" :=FileName is empty");
+    private static List<FileValidationReasons> gitRetrieveFileValidations(StockFileDetails stockFileDetails) {
+        List<FileValidationReasons> alert = new ArrayList<>();
+        if (stockFileDetails.getFileName() == null || stockFileDetails.getFileName().isBlank())
+            alert.add(FileValidationReasons.FILENAME_INCORRECT);
 
-        if (marketFileDetails.getFileType() == null || marketFileDetails.getFileType().isBlank())
-            alert.add(" :=fileType is empty");
+        if (stockFileDetails.getFileType() == null || stockFileDetails.getFileType().isBlank())
+            alert.add(FileValidationReasons.FILETYPE_INCORRECT);
 
-        if (marketFileDetails.getUri() == null || marketFileDetails.getUri().isEmpty())
-            alert.add(" :=download_url is empty");
+        if (stockFileDetails.getUri() == null || stockFileDetails.getUri().isEmpty())
+            alert.add(FileValidationReasons.DOWNLOAD_URL_INCORRECT);
 
-        if (marketFileDetails.getFolderName() == null || marketFileDetails.getFolderName().isBlank())
-            alert.add(" := Folder Name is Empty");
+        if (stockFileDetails.getFolderName() == null || stockFileDetails.getFolderName().isBlank())
+            alert.add(FileValidationReasons.FOLDER_NAME_INCORRECT);
 
-        if (marketFileDetails.getFileSize() <= 0)
-            alert.add(" :=file size is less than or equal to zero");
+        if (stockFileDetails.getFileSize() <= 0)
+            alert.add(FileValidationReasons.FILE_SIZE);
 
         if (alert.isEmpty())
-            alert.add(" :=Git validation Done");
+            alert.add(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL);
 
         return alert;
     }
 
-    protected static Map<String, List<Map<String, Object>>> allEventsRetrieval(String uri) throws ServerException {
+    protected static Map<String, StockFileDetails> allEventsRetrieval(String uri) throws ServerException {
         log.info("All Events Retrieval Initialized");
 
 
@@ -148,7 +159,7 @@ public class CommonRetrievals {
             return Map.of();
 
         }
-        Map<String, MarketFileDetails> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri);
+        Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
 
         if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("There is not files to be processed. size {}, in this Git Folder: {}", 0, folderName);
@@ -158,13 +169,13 @@ public class CommonRetrievals {
 
         List<String> getUrl = fetchCsvDownloadUrlsAndNames.values()
                 .stream()
-                .map(MarketFileDetails::getUri)
+                .map(StockFileDetails::getUri)
                 .map(String::valueOf)
                 .toList();
 
         List<String> getFileName = fetchCsvDownloadUrlsAndNames.keySet().stream().toList();
 
-        Map<String, List<Map<String, Object>>> allEventsRetrieval = new HashMap<>();
+        Map<String, List<Map<String, Object>>> allEventsRetrieval = new HashMap<>(); //fileName, fileData
 
         for (int i = 0; i < getUrl.size(); i++) {
             try {
@@ -188,100 +199,58 @@ public class CommonRetrievals {
         if (!allEventsRetrieval.isEmpty()) {
             log.info("Performing Market Event, EventName: {}", folderName);
 
-            fetchCsvDownloadUrlsAndNames = fileDataValidation(allEventsRetrieval, fetchCsvDownloadUrlsAndNames);
+            fetchCsvDownloadUrlsAndNames = fileDataValidation(allEventsRetrieval, fetchCsvDownloadUrlsAndNames);// fileName, fileDetails
 
-            if (!fetchCsvDownloadUrlsAndNames.isEmpty()) {
-                MarketEvent marketEvents = convertingDataIntoMarketEventObject(fetchCsvDownloadUrlsAndNames);
-            }
         }
-        return allEventsRetrieval;
+        return fetchCsvDownloadUrlsAndNames;
     }
 
-    private static MarketEvent convertingDataIntoMarketEventObject(Map<String, MarketFileDetails> fetchCsvDownloadUrlsAndNames) {
-        log.info("Processing the market Event");
+    private static Map<String, StockFileDetails> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames) {
 
-        if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
-            log.info("Can't convert because object is null");
-            return new MarketEvent();
-        }
-        log.info("Processing the market Event of size: {}", fetchCsvDownloadUrlsAndNames.size());
+        if (allEventsRetrieval.isEmpty() || fetchCsvDownloadUrlsAndNames.isEmpty()) {
 
-        List<MarketFileDetails> fileDetails = fetchCsvDownloadUrlsAndNames.values().stream().toList();
-        String stringEventName = fileDetails.get(0).getFolderName();
-        MarketEvent marketEvent = new MarketEvent();
-
-        log.info("Getting Market EventName");
-
-        switch (stringEventName) {
-            case "weeklyPerformance" -> marketEvent.setMarketEventName(MarketEvents.WEEKLY);
-            case "yearlyPerformance" -> marketEvent.setMarketEventName(MarketEvents.YEARLY);
-            case "monthlyPerformance" -> marketEvent.setMarketEventName(MarketEvents.MONTHLY);
-            case "dailyPerformance" -> marketEvent.setMarketEventName(MarketEvents.DAILY);
-            default -> throw new RuntimeException(new ServerExceptions("Can't process the Event EventName: " + folderName));
-        }
-
-        log.info("Marker Event Name Noted: {}", marketEvent.getMarketEventName());
-        marketEvent.setMarketFileDetails(fileDetails);
-
-        log.info("Saving the Market Event Data EventName: {}", marketEvent.getMarketEventName());
-
-        final String uri = apiURLs.get(SAVE_EVENT);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<MarketEvent> requestEntity = new HttpEntity<>(marketEvent, headers);
-
-
-        Object rowData = apiConnector(uri, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<ApiResponse<MarketEvent>>() {}).getData();
-
-        if (rowData instanceof MarketEvent) {
-            marketEvent = (MarketEvent) rowData;
-        }
-
-        if (marketEvent.getMarketEventId() == null) {
-
-            log.info("Failed to Create MarketEvent. With Name: {}", marketEvent.getMarketEventName());
-            return new MarketEvent();
-        } else {
-
-            log.info("Market Event Created. With Name: {}", marketEvent.getMarketEventName());
-            return marketEvent;
-        }
-
-    }
-
-    private static Map<String, MarketFileDetails> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, MarketFileDetails> fileDataValidation) {
-
-        if (allEventsRetrieval.isEmpty() || fileDataValidation.isEmpty()) {
-
-            log.info("allEventsRetrieval and fileDataValidation is null, Can't process..");
+            log.info("allEventsRetrieval and fetchCsvDownloadUrlsAndNames is null, Can't process..");
             return Map.of();
         }
 
-        log.info("performing validation for file data TotalFileData: {}, TotalFiles: {}", allEventsRetrieval.size(), fileDataValidation.size());
+        log.info("performing validation for file data TotalFileData: {}, TotalFiles: {}", allEventsRetrieval.size(), fetchCsvDownloadUrlsAndNames.size());
         //processing the records
         allEventsRetrieval.forEach((filename, details) -> {
-            MarketFileDetails fileDetails = fileDataValidation.get(filename);
+            StockFileDetails fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
             if (fileDetails != null) {
+                fileDetails.setFileData(details);
 
                 //checking the number of records
-                List<String> alert = fileDetails.getMessageAlert();
+                List<FileValidationReasons> alert = fileDetails.getFileDataValidation().getReason();
                 if (details.isEmpty()) {
-                    alert.add(" :=File data is empty");
-                    fileDetails.setFileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE);
-                    fileDetails.setFileStatus(FileStatus.IN_PROGRESS);
+                    alert.add(FileValidationReasons.FILE_DATA_INCORRECT);
+                    FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
+                            .fileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE)
+                            .validationDate(LocalDateTime.now())
+                            .reason(alert)
+                            .build();
+                    fileDetails.setFileDataValidation(fileDateValidationStatus);
+                }
+                String stringEventName = fileDetails.getFolderName();
+
+                switch (stringEventName) {
+                    case "weeklyPerformance" -> fileDetails.setMarketEvents(MarketEvents.WEEKLY);
+                    case "yearlyPerformance" -> fileDetails.setMarketEvents(MarketEvents.YEARLY);
+                    case "monthlyPerformance" -> fileDetails.setMarketEvents(MarketEvents.MONTHLY);
+                    case "dailyPerformance" -> fileDetails.setMarketEvents(MarketEvents.DAILY);
+                    default ->
+                            throw new RuntimeException(new ServerExceptions("Can't process the Event EventName: " + folderName));
                 }
 
-                fileDetails.setMessageAlert(alert);
-                fileDetails.setNumberOfRecords(details.size());
+                log.info("Marker Event Name Noted: {}", fileDetails.getMarketEvents().getEventName());
 
-                //ToDO: Further validations can be added here
+                log.info("Saving the Market Event Data EventName: {}", fileDetails.getMarketEvents().getEventName());
+
+                fileDetails.setNumberOfRecords(details.size());
             }
         });
 
-        return fileDataValidation;
-        //TODO Implementation of validating for file data;
+        return fetchCsvDownloadUrlsAndNames;
     }
 
     protected static List<String[]> readCsvFromUrl(String csvUrl) throws IOException, CsvException {
