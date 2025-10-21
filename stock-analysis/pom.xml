@@ -7,12 +7,12 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>funstock-market-jarsfile</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
 
     <groupId>org.example</groupId>
     <artifactId>stock-analysis</artifactId>
-    <version>1.0-0</version>
+    <version>1.0.2</version>
 
     <dependencies>
         <dependency>
@@ -22,8 +22,8 @@
         </dependency>
         <dependency>
             <groupId>Modules</groupId>
-            <artifactId>common-models</artifactId>
-            <version>1.0.2</version>
+            <artifactId>common-modules</artifactId>
+            <version>1.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
