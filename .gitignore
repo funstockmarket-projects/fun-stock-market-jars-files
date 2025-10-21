@@ -1,0 +1,16 @@
+# Maven build
+target/
+*.jar
+*.war
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+*.prefs
+*.launch
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
