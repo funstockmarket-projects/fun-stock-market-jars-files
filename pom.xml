@@ -4,22 +4,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>funStock.market</groupId>
-    <artifactId>funStock-market-JarsFile</artifactId>
-    <version>1.0.0</version>
+    <groupId>funstock.market</groupId>
+    <artifactId>funstock-market-jarsfile</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>CommonModels</module>
-        <module>GitReader</module>
-        <module>StockAnalysis</module>
+        <module>common-models</module>
+        <module>git-reader</module>
+        <module>stock-analysis</module>
     </modules>
 
     <distributionManagement>
         <repository>
             <id>funMarket</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/funstockmarket-projects/funStock-market-JarsFiles</url>
+            <url>https://maven.pkg.github.com/funstockmarket-projects/funstock-market-jarsfiles</url>
         </repository>
     </distributionManagement>
 

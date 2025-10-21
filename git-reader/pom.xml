@@ -3,19 +3,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>funstock.market</groupId>
+        <artifactId>funstock-market-jarsfile</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
     <groupId>org.app.gitReader</groupId>
-    <artifactId>GitReader</artifactId>
-    <version>0.1.3</version>
+    <artifactId>git-reader</artifactId>
+    <version>1.0.1</version>
 
     <name>GitReader</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
-
-    <parent>
-        <groupId>funStock.market</groupId>
-        <artifactId>funStock-market-JarsFile</artifactId>
-        <version>1.0.0</version>
-    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,8 +59,8 @@
         </dependency>
         <dependency>
             <groupId>Modules</groupId>
-            <artifactId>CommonModels</artifactId>
-            <version>0.1.2</version>
+            <artifactId>common-models</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.opencsv</groupId>

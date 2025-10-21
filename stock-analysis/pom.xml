@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>StockAnalysis</artifactId>
-    <version>1.0-0</version>
-
     <parent>
-        <groupId>funStock.market</groupId>
-        <artifactId>funStock-market-JarsFile</artifactId>
-        <version>1.0.0</version>
+        <groupId>funstock.market</groupId>
+        <artifactId>funstock-market-jarsfile</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
+
+    <groupId>org.example</groupId>
+    <artifactId>stock-analysis</artifactId>
+    <version>1.0-0</version>
 
     <dependencies>
         <dependency>
@@ -22,8 +22,8 @@
         </dependency>
         <dependency>
             <groupId>Modules</groupId>
-            <artifactId>CommonModels</artifactId>
-            <version>0.1.2</version>
+            <artifactId>common-models</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
