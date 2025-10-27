@@ -5,13 +5,13 @@
 
     <parent>
         <groupId>funstock.market</groupId>
-        <artifactId>funstock-market-jarsfile</artifactId>
-        <version>1.0.2</version>
+        <artifactId>fun-stock-market-jars-file</artifactId>
+        <version>1.0.4</version>
     </parent>
 
     <groupId>org.app.gitReader</groupId>
     <artifactId>git-reader</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <name>GitReader</name>
     <!-- FIXME change it to the project's website -->
@@ -60,7 +60,7 @@
         <dependency>
             <groupId>Modules</groupId>
             <artifactId>common-modules</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>com.opencsv</groupId>

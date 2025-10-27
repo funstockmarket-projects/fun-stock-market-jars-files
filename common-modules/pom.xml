@@ -5,16 +5,16 @@
 
     <parent>
         <groupId>funstock.market</groupId>
-        <artifactId>funstock-market-jarsfile</artifactId>
-        <version>1.0.3</version>
+        <artifactId>fun-stock-market-jars-file</artifactId>
+        <version>1.0.4</version>
     </parent>
 
 
-    <groupId>Modules</groupId>
+    <groupId>modules</groupId>
     <artifactId>common-modules</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
-    <name>CommonModels</name>
+    <name>common-modules</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 

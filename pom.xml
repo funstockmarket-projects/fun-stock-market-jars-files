@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>funstock.market</groupId>
-    <artifactId>funstock-market-jarsfile</artifactId>
-    <version>1.0.3</version>
+    <artifactId>fun-stock-market-jars-file</artifactId>
+    <version>1.0.4</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -19,7 +19,7 @@
         <repository>
             <id>funMarket</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/funstockmarket-projects/funstock-market-jarsfiles</url>
+            <url>https://maven.pkg.github.com/funstockmarket-projects/fun-stock-market-jars-files</url>
         </repository>
     </distributionManagement>
 
