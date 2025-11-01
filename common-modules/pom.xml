@@ -6,13 +6,13 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.6</version>
     </parent>
 
 
     <groupId>modules</groupId>
     <artifactId>common-modules</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.7</version>
 
     <name>common-modules</name>
     <!-- FIXME change it to the project's website -->

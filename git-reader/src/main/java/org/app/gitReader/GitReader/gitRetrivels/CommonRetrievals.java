@@ -47,30 +47,22 @@ public class CommonRetrievals {
     }
 
     protected static Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames(String uri) {
-
         if (uri == null || uri.isBlank()) {
             throw new SecurityException("Git Uri is null");
         }
-
         List<String> uriElements = Arrays.stream(uri.split("/")).toList();
         folderName = uriElements.get(uriElements.size() - 1);
-
         log.info("Fetching MarketFileDetails Through GitHub URI: {}", uri);
-
         uri = uri.trim();
-
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
                 uri,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<Map<String, Object>>>() {
                 });
-
         assert response.getBody() != null;
-
-        //data retrieving from the DataBase MySql
+        //data retrieving from the DataBase server for valid file
         List<String> fileNamesUpdatedWithStatus = DataRetrieve.fileNamesUpdatedWithStatus;
-
         Map<String, StockFileDetails> fileNameAndUri = response.getBody().stream()
                 .filter(filename -> {
                     String fileName = ((String) (filename.get("name"))).replace(".csv", "");
@@ -79,14 +71,11 @@ public class CommonRetrievals {
                 .collect(Collectors.toMap(
                         k -> ((String) (k.get("name"))).replace(".csv", ""),
                         v -> {
-
                             String filename = ((String) (v.get("name"))).replace(".csv", "");
                             String fileType = ((String) v.get("name")).substring(((String) v.get("name")).lastIndexOf('.') + 1);
                             String download_url = (String) v.get("download_url");
                             Number sizeNum = (Number) v.get("size");
-
                             long size = sizeNum != null ? sizeNum.longValue() : 0L;
-
                             StockFileDetails stockFileDetails = StockFileDetails.builder()
                                     .fileName(filename)
                                     .fileType(fileType)
@@ -97,73 +86,59 @@ public class CommonRetrievals {
                                     .build();
 
                             List<FileValidationReasons> alert = gitRetrieveFileValidations(stockFileDetails);
-
+                            FileDateValidationStatus fileDateValidationStatus;
                             if (alert.contains(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL)) {
-                                FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
+                                fileDateValidationStatus = FileDateValidationStatus.builder()
                                         .fileValidationStatus(Validations.VALID)
                                         .validationDate(LocalDateTime.now())
                                         .reason(alert)
                                         .build();
-                                stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             } else {
-                                FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
+                                fileDateValidationStatus = FileDateValidationStatus.builder()
                                         .fileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE)
                                         .validationDate(LocalDateTime.now())
                                         .reason(alert)
                                         .build();
-                                stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             }
+                            stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             return stockFileDetails;
                         }
                 ));
-
-
         if (fileNameAndUri.isEmpty()) {
             log.info("No Incomplete files founded in this folder: {}", folderName);
             return Map.of();
         }else{
             return fileNameAndUri; //filename, fileDetails
         }
-
     }
 
     private static List<FileValidationReasons> gitRetrieveFileValidations(StockFileDetails stockFileDetails) {
         List<FileValidationReasons> alert = new ArrayList<>();
         if (stockFileDetails.getFileName() == null || stockFileDetails.getFileName().isBlank())
             alert.add(FileValidationReasons.FILENAME_INCORRECT);
-
         if (stockFileDetails.getFileType() == null || stockFileDetails.getFileType().isBlank())
             alert.add(FileValidationReasons.FILETYPE_INCORRECT);
-
         if (stockFileDetails.getUri() == null || stockFileDetails.getUri().isEmpty())
             alert.add(FileValidationReasons.DOWNLOAD_URL_INCORRECT);
-
         if (stockFileDetails.getFolderName() == null || stockFileDetails.getFolderName().isBlank())
             alert.add(FileValidationReasons.FOLDER_NAME_INCORRECT);
-
         if (stockFileDetails.getFileSize() <= 0)
             alert.add(FileValidationReasons.FILE_SIZE);
-
         if (alert.isEmpty())
             alert.add(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL);
-
         return alert;
     }
 
     protected static Map<String, StockFileDetails> allEventsRetrieval(String uri) throws ServerException {
         log.info("All Events Retrieval Initialized");
-
-
         if (uri == null || uri.isBlank()) {
             log.info("URI is blank, fetching from application properties file");
             return Map.of();
-
         }
-        Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
 
+        Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
         if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("There is not files to be processed. size {}, in this Git Folder: {}", 0, folderName);
-
             return Map.of();
         }
 
@@ -172,25 +147,17 @@ public class CommonRetrievals {
                 .map(StockFileDetails::getUri)
                 .map(String::valueOf)
                 .toList();
-
         List<String> getFileName = fetchCsvDownloadUrlsAndNames.keySet().stream().toList();
-
         Map<String, List<Map<String, Object>>> allEventsRetrieval = new HashMap<>(); //fileName, fileData
-
         for (int i = 0; i < getUrl.size(); i++) {
             try {
-
                 List<String[]> fetchData = readCsvFromUrl(getUrl.get(i));
                 List<String> jsonName = Arrays.asList(fetchData.get(0));
                 fetchData.remove(0);
-
                 String fileName = getFileName.get(i);
                 FileName file = new FileName(fileName, FileStatus.INCOMPLETE);
-
                 List<Map<String, Object>> fileData = getDataList(fetchData, jsonName);
-
                 log.info("File: {} Processed with {} records.", fileName, fileData.size());
-
                 allEventsRetrieval.put(file.getFileName(), fileData);
             } catch (IOException | CsvException e) {
                 System.out.println("Unable to fetch the data.");
@@ -198,28 +165,22 @@ public class CommonRetrievals {
         }
         if (!allEventsRetrieval.isEmpty()) {
             log.info("Performing Market Event, EventName: {}", folderName);
-
             fetchCsvDownloadUrlsAndNames = fileDataValidation(allEventsRetrieval, fetchCsvDownloadUrlsAndNames);// fileName, fileDetails
-
         }
         return fetchCsvDownloadUrlsAndNames;
     }
 
     private static Map<String, StockFileDetails> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames) {
-
         if (allEventsRetrieval.isEmpty() || fetchCsvDownloadUrlsAndNames.isEmpty()) {
-
             log.info("allEventsRetrieval and fetchCsvDownloadUrlsAndNames is null, Can't process..");
             return Map.of();
         }
-
         log.info("performing validation for file data TotalFileData: {}, TotalFiles: {}", allEventsRetrieval.size(), fetchCsvDownloadUrlsAndNames.size());
         //processing the records
         allEventsRetrieval.forEach((filename, details) -> {
             StockFileDetails fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
             if (fileDetails != null) {
                 fileDetails.setFileData(details);
-
                 //checking the number of records
                 List<FileValidationReasons> alert = fileDetails.getFileDataValidation().getReason();
                 if (details.isEmpty()) {
@@ -241,20 +202,15 @@ public class CommonRetrievals {
                     default ->
                             throw new RuntimeException(new ServerExceptions("Can't process the Event EventName: " + folderName));
                 }
-
                 log.info("Marker Event Name Noted: {}", fileDetails.getMarketEvents().getEventName());
-
                 log.info("Saving the Market Event Data EventName: {}", fileDetails.getMarketEvents().getEventName());
-
                 fileDetails.setNumberOfRecords(details.size());
             }
         });
-
         return fetchCsvDownloadUrlsAndNames;
     }
 
     protected static List<String[]> readCsvFromUrl(String csvUrl) throws IOException, CsvException {
-
         log.info("Reading CSV from URL: {}", csvUrl);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(csvUrl).openStream()));
 
@@ -265,15 +221,12 @@ public class CommonRetrievals {
 
     private static List<Map<String, Object>> getDataList(List<String[]> fetchData, List<String> jsonName) {
         List<Map<String, Object>> weeklyDataList = new ArrayList<>();
-
         for (String[] fetchDatum : fetchData) {
             Map<String, Object> weeklyDataMap = new HashMap<>();
-
             for (int k = 0; k < jsonName.size(); k++) {
                 String key = jsonName.get(k).replace(".", "").trim().replace(" ", "").toLowerCase();
                 weeklyDataMap.put(key, fetchDatum[k]);
             }
-
             weeklyDataMap.remove("");
             weeklyDataList.add(weeklyDataMap);
         }
@@ -282,22 +235,16 @@ public class CommonRetrievals {
 
     public static String applicationPropertiesReader(String fileName, String key) {
         log.info("Reading application properties from file: {} for key: {}", fileName, key);
-
         Properties properties = new Properties();
-
         try (InputStream input = CommonRetrievals.class.getClassLoader().getResourceAsStream(fileName)) {
             if (input == null) {
-
                 log.info("Sorry, unable to find market_gitURI.properties");
             }
-
             properties.load(input);
             String value = properties.getProperty(key);
-
             if (value == null) {
                 log.error("Key not found: {}", key);
             }
-
             return value;
         } catch (IOException ex) {
             log.error("IOException occurred: {}", ex.getMessage());

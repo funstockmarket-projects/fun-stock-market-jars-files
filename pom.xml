@@ -6,7 +6,7 @@
 
     <groupId>funstock.market</groupId>
     <artifactId>fun-stock-market-jars-file</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
     <packaging>pom</packaging>
 
     <modules>
