@@ -15,10 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileDateValidationStatus {
-
     private Validations fileValidationStatus;
-    private List<FileValidationReasons> reason;
     private LocalDateTime validationDate = LocalDateTime.now();
-
-
+    private List<FileValidationReasons> reason;
 }

@@ -6,12 +6,12 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
     </parent>
 
     <groupId>org.app.gitReader</groupId>
     <artifactId>git-reader</artifactId>
-    <version>1.0.4</version>
+    <version>${git-reader}</version>
 
     <name>GitReader</name>
     <!-- FIXME change it to the project's website -->

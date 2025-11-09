@@ -16,11 +16,8 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockFileDetails {
-
-
-    private String fileId;
+    private String fileUUID;
     private String fileName;
-    private List<Map<String, Object>> fileData;
     private String folderName;
     private String fileType;
     private Long fileSize;
@@ -30,6 +27,7 @@ public class StockFileDetails {
     private MarketEvents marketEvents;
     private LocalDateTime fileCreatedDate;
     private LocalDateTime fileModifiedDate = LocalDateTime.now();
+    private List<Map<String, Object>> fileData;
 
     public void isValid() {
         this.fileModifiedDate = LocalDateTime.now();

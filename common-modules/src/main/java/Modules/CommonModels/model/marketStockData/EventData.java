@@ -12,16 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventData {
-
-
     private String eventUUID;
     private MarketEvents eventName;
-    private List<StockFileDetails> stockFileDetails;
     private LocalDateTime EventCreationData;
     private LocalDateTime ModifiedDate = LocalDateTime.now();
+    private List<StockFileDetails> stockFileDetails;
 
-
-    public boolean isValid(){
-        return false;
+    public void isValid(){
+        this.ModifiedDate = LocalDateTime.now();
     }
 }
