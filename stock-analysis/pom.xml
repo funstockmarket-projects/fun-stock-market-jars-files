@@ -7,7 +7,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
     </parent>
 
     <groupId>org.example</groupId>
@@ -21,9 +21,9 @@
             <version>6.2.6</version>
         </dependency>
         <dependency>
-            <groupId>Modules</groupId>
+            <groupId>modules</groupId>
             <artifactId>common-modules</artifactId>
-            <version>1.0.7</version>
+            <version>${common-version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
     </parent>
 
     <groupId>org.app.gitReader</groupId>
@@ -54,13 +54,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.38</version>
+            <version>1.18.42</version>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>Modules</groupId>
+            <groupId>modules</groupId>
             <artifactId>common-modules</artifactId>
-            <version>1.0.7</version>
+            <version>${common-version}</version>
         </dependency>
         <dependency>
             <groupId>com.opencsv</groupId>
