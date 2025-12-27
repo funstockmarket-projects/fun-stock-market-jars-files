@@ -18,6 +18,7 @@
         <common-version>1.0.10</common-version>
         <git-reader>1.0.7</git-reader>
         <stock-analysis>1.0.7</stock-analysis>
+        <service-domin>1.0.1</service-domin>
     </properties>
 
     <distributionManagement>
