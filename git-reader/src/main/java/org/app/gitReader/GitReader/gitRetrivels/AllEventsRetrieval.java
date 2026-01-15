@@ -1,7 +1,7 @@
 package org.app.gitReader.GitReader.gitRetrivels;
 
-import Modules.CommonModels.enums.MarketEvents;
-import Modules.CommonModels.model.marketStockData.StockFileDetails;
+import com.fsm.domins.globalenums.MarketEvents;
+import com.fsm.domins.stockDetails.models.StockFileDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

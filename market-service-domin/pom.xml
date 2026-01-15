@@ -7,12 +7,12 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.9</version>
+        <version>1.0.11</version>
     </parent>
 
-    <groupId>java.com.fsm.domins</groupId>
+    <groupId>fun-stock-market.domins</groupId>
     <artifactId>market-service-domin</artifactId>
-    <version>${service-domin}</version>
+    <version>${market-service-domin}</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,6 +21,14 @@
     </properties>
 
     <dependencies>
+
+        <!-- mongodb connection-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>3.5.6</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

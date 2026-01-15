@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static Modules.CommonModels.enums.FileValidationStatus.*;
 import static Modules.CommonModels.enums.helperConstants.*;
 import static Modules.CommonModels.response.ApiResponse.apiConnector;
 
@@ -21,10 +22,11 @@ public class DataRetrieve {
 
     public List<String> getFileNamesUpdatedWithStatus(String status) throws ServerExceptions {
         return switch (status) {
-            case VALIDATED -> getDataByStatusName(VALIDATED);
-            case FILES_INVALID -> getDataByStatusName(FILES_INVALID);
+            case "CLEARED" -> getDataByStatusName(CLEARED.getStatus());
+            case "REJECTED" -> getDataByStatusName(REJECTED.getStatus());
+            case "NOT_CLEARED" -> getDataByStatusName(NOT_CLEARED.getStatus());
             case FILES_VALID -> getDataByStatusName(FILES_VALID);
-            default -> throw new ServerExceptions("Invalid status name");
+            default -> throw new ServerExceptions("Invalid status name: "+status);
         };
     }
 

@@ -1,6 +1,5 @@
-package Modules.CommonModels.enums;
+package com.fsm.domins.globalenums;
 
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.Arrays;

@@ -6,19 +6,20 @@
 
     <groupId>funstock.market</groupId>
     <artifactId>fun-stock-market-jars-file</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.11</version>
     <packaging>pom</packaging>
 
     <modules>
+        <module>market-service-domin</module>
         <module>common-modules</module>
         <module>git-reader</module>
         <module>stock-analysis</module>
     </modules>
     <properties>
-        <common-version>1.0.10</common-version>
-        <git-reader>1.0.7</git-reader>
-        <stock-analysis>1.0.7</stock-analysis>
-        <service-domin>1.0.1</service-domin>
+        <market-service-domin>1.0.2</market-service-domin>
+        <common-version>1.0.12</common-version>
+        <git-reader>1.0.9</git-reader>
+        <stock-analysis>1.0.9</stock-analysis>
     </properties>
 
     <distributionManagement>

@@ -1,12 +1,9 @@
 package org.app.gitReader.GitReader.gitRetrivels;
 
 import Modules.CommonModels.enums.FileStatus;
-import Modules.CommonModels.enums.FileValidationReasons;
-import Modules.CommonModels.enums.MarketEvents;
-import Modules.CommonModels.enums.Validations;
+import com.fsm.domins.globalenums.MarketEvents;
 import Modules.CommonModels.exceptions.ServerExceptions;
-import Modules.CommonModels.model.marketStockData.FileDateValidationStatus;
-import Modules.CommonModels.model.marketStockData.StockFileDetails;
+import com.fsm.domins.stockDetails.models.StockFileDetails;
 import Modules.CommonModels.pojo.FileName;
 import Modules.CommonModels.retrivels.ApiRetrieve;
 import com.opencsv.CSVReader;
@@ -31,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static Modules.CommonModels.enums.FileValidationStatus.CLEARED;
 import static Modules.CommonModels.enums.helperConstants.VALIDATED;
 
 @Slf4j
@@ -44,7 +42,7 @@ public class CommonRetrievals {
     private static final String token = ApiRetrieve.applicationPropertiesReader("market_gitURI.properties", "marketAnalysis.gitReader.gitToken");
 
     @Autowired
-    private DataRetrieve dataRetrieve;
+    private DataRetrieve dataRetrieve = new DataRetrieve();
 
     static {
         log.info("CommonRetrievals Initialized");
@@ -70,7 +68,7 @@ public class CommonRetrievals {
         //data retrieving from the DataBase server for valid file
         List<String> fileNamesUpdatedWithStatus = List.of();
         try {
-            fileNamesUpdatedWithStatus = dataRetrieve.getFileNamesUpdatedWithStatus(VALIDATED);
+            fileNamesUpdatedWithStatus = dataRetrieve.getFileNamesUpdatedWithStatus(CLEARED.getStatus());
         } catch (Exception e) {
             log.error("Error while fetching fileNamesUpdatedWithStatus message: {}", e.getMessage());
         }
@@ -96,23 +94,6 @@ public class CommonRetrievals {
                                     .folderName(folderName)
                                     .fileModifiedDate(LocalDateTime.now())
                                     .build();
-
-                            List<FileValidationReasons> alert = gitRetrieveFileValidations(stockFileDetails);
-                            FileDateValidationStatus fileDateValidationStatus;
-                            if (alert.contains(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL)) {
-                                fileDateValidationStatus = FileDateValidationStatus.builder()
-                                        .fileValidationStatus(Validations.VALID)
-                                        .validationDate(LocalDateTime.now())
-                                        .reason(alert)
-                                        .build();
-                            } else {
-                                fileDateValidationStatus = FileDateValidationStatus.builder()
-                                        .fileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE)
-                                        .validationDate(LocalDateTime.now())
-                                        .reason(alert)
-                                        .build();
-                            }
-                            stockFileDetails.setFileDataValidation(fileDateValidationStatus);
                             return stockFileDetails;
                         }
                 ));
@@ -122,23 +103,6 @@ public class CommonRetrievals {
         }else{
             return fileNameAndUri; //filename, fileDetails
         }
-    }
-
-    private static List<FileValidationReasons> gitRetrieveFileValidations(StockFileDetails stockFileDetails) {
-        List<FileValidationReasons> alert = new ArrayList<>();
-        if (stockFileDetails.getFileName() == null || stockFileDetails.getFileName().isBlank())
-            alert.add(FileValidationReasons.FILENAME_INCORRECT);
-        if (stockFileDetails.getFileType() == null || stockFileDetails.getFileType().isBlank())
-            alert.add(FileValidationReasons.FILETYPE_INCORRECT);
-        if (stockFileDetails.getUri() == null || stockFileDetails.getUri().isEmpty())
-            alert.add(FileValidationReasons.DOWNLOAD_URL_INCORRECT);
-        if (stockFileDetails.getFolderName() == null || stockFileDetails.getFolderName().isBlank())
-            alert.add(FileValidationReasons.FOLDER_NAME_INCORRECT);
-        if (stockFileDetails.getFileSize() <= 0)
-            alert.add(FileValidationReasons.FILE_SIZE);
-        if (alert.isEmpty())
-            alert.add(FileValidationReasons.GIT_FILE_VALIDATION_SUCCESSFUL);
-        return alert;
     }
 
     protected Map<String, StockFileDetails> allEventsRetrieval(String uri) throws ServerException {
@@ -193,29 +157,18 @@ public class CommonRetrievals {
             StockFileDetails fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
             if (fileDetails != null) {
                 fileDetails.setFileData(details);
-                //checking the number of records
-                List<FileValidationReasons> alert = fileDetails.getFileDataValidation().getReason();
-                if (details.isEmpty()) {
-                    alert.add(FileValidationReasons.FILE_DATA_INCORRECT);
-                    FileDateValidationStatus fileDateValidationStatus = FileDateValidationStatus.builder()
-                            .fileValidationStatus(Validations.GIT_FILE_VALIDATION_FALSE)
-                            .validationDate(LocalDateTime.now())
-                            .reason(alert)
-                            .build();
-                    fileDetails.setFileDataValidation(fileDateValidationStatus);
-                }
                 String stringEventName = fileDetails.getFolderName();
 
                 switch (stringEventName) {
-                    case "weeklyPerformance" -> fileDetails.setMarketEvents(MarketEvents.WEEKLY);
-                    case "yearlyPerformance" -> fileDetails.setMarketEvents(MarketEvents.YEARLY);
-                    case "monthlyPerformance" -> fileDetails.setMarketEvents(MarketEvents.MONTHLY);
-                    case "dailyPerformance" -> fileDetails.setMarketEvents(MarketEvents.DAILY);
+                    case "weeklyPerformance" -> fileDetails.setEventName(MarketEvents.WEEKLY);
+                    case "yearlyPerformance" -> fileDetails.setEventName(MarketEvents.YEARLY);
+                    case "monthlyPerformance" -> fileDetails.setEventName(MarketEvents.MONTHLY);
+                    case "dailyPerformance" -> fileDetails.setEventName(MarketEvents.DAILY);
                     default ->
                             throw new RuntimeException(new ServerExceptions("Can't process the Event EventName: " + folderName));
                 }
-                log.info("Marker Event Name Noted: {}", fileDetails.getMarketEvents().getEventName());
-                log.info("Saving the Market Event Data EventName: {}", fileDetails.getMarketEvents().getEventName());
+                log.info("Marker Event Name Noted: {}", fileDetails.getEventName().getEventName());
+                log.info("Saving the Market Event Data EventName: {}", fileDetails.getEventName().getEventName());
                 fileDetails.setNumberOfRecords(details.size());
             }
         });

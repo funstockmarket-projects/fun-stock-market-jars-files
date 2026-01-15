@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
+import static Modules.CommonModels.enums.FileValidationStatus.*;
 import static Modules.CommonModels.enums.helperConstants.*;
 
 @Slf4j
@@ -25,12 +26,12 @@ public class ApiRetrieve {
     @Bean
     public Map<String, String> apiURLs() {
         return Map.of(
-                VALIDATED,
-                connectionURLs.getValidationUrl() + VALIDATED,
-                FILES_VALID,
-                connectionURLs.getValidationUrl() + FILES_VALID,
-                FILES_INVALID,
-                connectionURLs.getValidationUrl() + FILES_INVALID
+                CLEARED.getStatus(),
+                connectionURLs.getValidationUrl() + CLEARED.getStatus(),
+                REJECTED.getStatus(),
+                connectionURLs.getValidationUrl() + REJECTED.getStatus(),
+                NOT_CLEARED.getStatus(),
+                connectionURLs.getValidationUrl() + NOT_CLEARED.getStatus()
         );
     }
 
