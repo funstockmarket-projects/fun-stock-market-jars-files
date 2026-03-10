@@ -1,5 +1,6 @@
 package com.fsm.domins.clearing.models;
 
+import com.fsm.domins.globalenums.RecordStatus;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,4 +22,6 @@ public class FileClearing {
     private String clearingMessage;
     private LocalDateTime clearingDate;
     private  LocalDateTime modifiedDate;
+    private String placeOFModification;
+    private RecordStatus clearingRecordStatus;
 }
