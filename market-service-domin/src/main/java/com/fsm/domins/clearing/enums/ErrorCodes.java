@@ -21,10 +21,9 @@ public enum ErrorCodes {
     ERR_3010("3010", "Invalid file modified date"),
     ERR_3011("3011", "File date validation failed"),
     ERR_3012("3012", "Market events name invalid"),
-
     ERR_0000("0000", "Unknown error"),
-    ERROR_0001("0001", "File processing failed"),
-    ERROR_0002("0002", "File Details Modified"),
+    ERR_0001("0001", "File processing failed"),
+    ERR_0002("0002", "File Details Modified"),
     ERR_5001("5001", "File name exist");
 
 

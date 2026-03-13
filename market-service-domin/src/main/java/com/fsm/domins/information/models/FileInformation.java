@@ -10,8 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @Setter
@@ -29,15 +28,15 @@ public class FileInformation {
     private String fileUri;
     private String fileFolderName;
     private String fileStockDetailsUuid;
-    private LocalDateTime gitFileCreationDateAndTimeInSubBranch;
-    private LocalDateTime fileMRApprovedDateAndTime;
-    private List<LocalDateTime> fileProcessedDateAndTime;
-    private LocalDateTime fileCreationAndMergedIntoMainBranchDateAndTime;
-    private List<LocalDateTime> fileModifiedInGitHubDateAndTime;
+    private List<LocalDateTime> gitFileCreationDateAndTimeInSubBranch ;
+    private List<LocalDateTime> fileMRApprovedDateAndTime ;
+    private List<LocalDateTime> fileProcessedDateAndTime ;
+    private Map<String, LocalDateTime> fileCreationAndMergedIntoMainBranchDateAndTime ;
+    private List<LocalDateTime> fileModifiedInGitHubDateAndTime ;
     private String gitHubFileInToSubBranchPusherName;
     private String fileGithubFileMergedIntoMainBranchMergerName;
     private String fileGithubFileMergedIntoMainBranchMergerEmailId;
-    private  String gitHubFileInToSubBranchPusherEmailId;
+    private String gitHubFileInToSubBranchPusherEmailId;
     private Days fileUploadedIntoGitHubSubBranchDay;
     private Days fileUploadedIntoGitHubMainBranchDay;
     private Answer isFileUploadedToGitHubMainBranchInWorkingDay;
@@ -63,11 +62,12 @@ public class FileInformation {
     private String lastClearingMessage;
     private long numberOfRecords;
     private String fileInformationPlaceOfCreation;
-    private Map<String, LocalDateTime> userNamesOfModifyFileName;
-    private Map<String, LocalDateTime> commitMessagesInSubBranch;
-    private Map<String, LocalDateTime> commitMessagesInMainBranch;
-    private List<LocalDateTime> dateAndTimeFileModifiedInServer;
+    private Map<String, LocalDateTime> userNamesOfModifyFileName ;
+    private Map<String, LocalDateTime> commitMessagesInSubBranch ;
+    private Map<String, LocalDateTime> commitMessagesInMainBranch ;
+    private List<LocalDateTime> dateAndTimeFileModifiedInServer ;
     private RecordStatus gitHubFileStatus;
     private LocalDateTime fileInformationRecordCreatedDateAndTime;
-    private Map<String, LocalDateTime> fileInformationRecordModifiedDateAndTime;
+    private Map<String, LocalDateTime> fileInformationRecordModifiedDateAndTime ;
+    private ProcessingStatus fileInformationStatus;
 }
