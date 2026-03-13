@@ -1,45 +1,92 @@
 package Modules.CommonModels.commonServices;
 
 import Modules.CommonModels.exceptions.FileErrorContextException;
+import Modules.fileValidation.FileNameValidation;
+import Modules.fileValidation.FileValidationResponse;
 import com.fsm.domins.clearing.enums.ErrorCodes;
 import com.fsm.domins.stockDetails.models.StockFileDetails;
 import com.fsm.domins.globalenums.MarketEvents;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
+@Slf4j
 public class FileValidationService {
 
     private static final Set<String> VALID_EVENT_TYPES = Set.of("DAILY", "MONTHLY", "WEEKLY", "YEARLY");
+    private static final long MIN_RECORDS = 1L;
 
     public void getFileValidationStatus(StockFileDetails stockFileDetails) throws FileErrorContextException {
-        require(stockFileDetails != null, ErrorCodes.ERR_3002);
+        log.debug("Starting validation for StockFileDetails");
 
-        require(stockFileDetails.getFileUUID() != null && !stockFileDetails.getFileUUID().isEmpty(), ErrorCodes.ERR_3002);
-        require(stockFileDetails.getFileName() != null && !stockFileDetails.getFileName().isEmpty(), ErrorCodes.ERR_3001);
-        require(stockFileDetails.getFolderName() != null && !stockFileDetails.getFolderName().isEmpty(), ErrorCodes.ERR_3003);
-        require(stockFileDetails.getFileType() != null && !stockFileDetails.getFileType().isEmpty(), ErrorCodes.ERR_3004);
+        require(stockFileDetails != null, ErrorCodes.ERR_3002, "StockFileDetails cannot be null");
 
-        Long fileSize = stockFileDetails.getFileSize();
-        require(fileSize != null && fileSize > 0, ErrorCodes.ERR_3005);
+        assert stockFileDetails != null;
+        validateFileName(stockFileDetails.getFileName());
+        validateFileMetadata(stockFileDetails);
+        validateFileProperties(stockFileDetails);
+        validateFileContent(stockFileDetails);
+        validateEventDetails(stockFileDetails);
 
-        long numberOfRecords = stockFileDetails.getNumberOfRecords();
-        require(numberOfRecords > 0, ErrorCodes.ERR_3006);
-
-        require(stockFileDetails.getUri() != null && !stockFileDetails.getUri().isEmpty(), ErrorCodes.ERR_3007);
-        require(stockFileDetails.getFileData() != null && !stockFileDetails.getFileData().isEmpty(), ErrorCodes.ERR_3008);
-        require(stockFileDetails.getFileUploadDate() != null, ErrorCodes.ERR_3009);
-        require(stockFileDetails.getFileModifiedDate() != null, ErrorCodes.ERR_3010);
-
-        MarketEvents marketEvents = stockFileDetails.getEventName();
-        require(marketEvents != null, ErrorCodes.ERR_3012);
-
-        String eventName = marketEvents.getEventName();
-        require(eventName != null && VALID_EVENT_TYPES.contains(eventName.toUpperCase()), ErrorCodes.ERR_3012);
+        log.info("All validations passed successfully");
     }
 
-    // Helper to reduce repetition: throws the provided error code if the condition is false
-    private void require(boolean condition, ErrorCodes errorCode) throws FileErrorContextException {
+    private void validateFileName(String fileName) throws FileErrorContextException {
+        FileValidationResponse response = new FileNameValidation(fileName).processFileName();
+
+        if (!response.fileValidationResult) {
+            log.error("File name validation failed: {}", fileName);
+            require(false, response.getErrorCodes(), "Invalid file name format: " + fileName);
+        }
+    }
+
+    private void validateFileMetadata(StockFileDetails details) throws FileErrorContextException {
+        require(isNotBlank(details.getFileUUID()), ErrorCodes.ERR_3002, "File UUID cannot be empty");
+        require(isNotBlank(details.getFolderName()), ErrorCodes.ERR_3003, "Folder name cannot be empty");
+        require(isNotBlank(details.getFileType()), ErrorCodes.ERR_3004, "File type cannot be empty");
+        log.debug("File metadata validation passed");
+    }
+
+    private void validateFileProperties(StockFileDetails details) throws FileErrorContextException {
+        require(details.getFileSize() != null, ErrorCodes.ERR_3005, "File size cannot be null");
+        require(details.getFileSize() > 0, ErrorCodes.ERR_3005, "File size must be greater than 0");
+
+        require(details.getNumberOfRecords() >= MIN_RECORDS, ErrorCodes.ERR_3006,
+                "Number of records must be at least " + MIN_RECORDS);
+
+        log.debug("File properties validation passed - Size: {}, Records: {}",
+                details.getFileSize(), details.getNumberOfRecords());
+    }
+
+    private void validateFileContent(StockFileDetails details) throws FileErrorContextException {
+        require(isNotBlank(details.getUri()), ErrorCodes.ERR_3007, "URI cannot be empty");
+        require(details.getFileData() != null && !details.getFileData().isEmpty(),
+                ErrorCodes.ERR_3008, "File data cannot be empty");
+
+        log.debug("File content validation passed");
+    }
+
+    private void validateEventDetails(StockFileDetails details) throws FileErrorContextException {
+        require(details.getFileUploadDate() != null, ErrorCodes.ERR_3009, "Upload date cannot be null");
+        require(details.getFileModifiedDate() != null, ErrorCodes.ERR_3010, "Modified date cannot be null");
+
+        MarketEvents eventName = details.getEventName();
+        require(eventName != null, ErrorCodes.ERR_3012, "Event name cannot be null");
+
+        String eventValue = eventName.getEventName();
+        require(eventValue != null && VALID_EVENT_TYPES.contains(eventValue.toUpperCase()),
+                ErrorCodes.ERR_3012, "Invalid event type: " + eventValue);
+
+        log.debug("Event details validation passed - Event: {}", eventValue);
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.isEmpty();
+    }
+
+    private void require(boolean condition, ErrorCodes errorCode, String message) throws FileErrorContextException {
         if (!condition) {
+            log.error("Validation failed: {} [{}]", message, errorCode.toString());
             throw new FileErrorContextException(errorCode);
         }
     }
