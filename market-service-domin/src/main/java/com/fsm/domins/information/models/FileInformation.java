@@ -28,6 +28,10 @@ public class FileInformation {
     private String fileUri;
     private String fileFolderName;
     private String fileStockDetailsUuid;
+    private String fileMRPublisherName;
+    private String fileMRApprovedName;
+    private LocalDateTime fileMRPublisherDateAndTime;
+    private String AssigneesNames;
     private List<LocalDateTime> gitFileCreationDateAndTimeInSubBranch ;
     private List<LocalDateTime> fileMRApprovedDateAndTime ;
     private List<LocalDateTime> fileProcessedDateAndTime ;
