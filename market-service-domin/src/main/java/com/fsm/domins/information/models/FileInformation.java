@@ -32,6 +32,7 @@ public class FileInformation {
     private String fileMRApprovedName;
     private LocalDateTime fileMRPublisherDateAndTime;
     private String AssigneesNames;
+    private String reviewers;
     private List<LocalDateTime> gitFileCreationDateAndTimeInSubBranch ;
     private List<LocalDateTime> fileMRApprovedDateAndTime ;
     private List<LocalDateTime> fileProcessedDateAndTime ;
