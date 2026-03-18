@@ -10,9 +10,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
+
+import static Modules.CommonModels.pojo.TimeConverter.timeConverterToIST;
 
 @Slf4j
 @Component
@@ -29,13 +35,21 @@ public class TelegramNotificationsService {
     @Value("${telegram.botUri}")
     private String botUri;
 
+    @Value("${spring.profiles.active}")
+    private String profile;
 
-    public static final ZoneId ZONE = ZoneId.of("Asia/Kolkata");
-    public static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a z");
+    public NotificationsStatusCodes sendMessage(Map<String, String> messageElements, Class<?> className){
+        log.info("Collecting message information");
+       return buildMessage(messageElements, className);
+    }
 
     public NotificationsStatusCodes telegramMessage(String message) {
-        return sendMessage(message);
+
+        if(profile.equals("prod")){
+            return sendMessage(message);
+        }else{
+            return null;
+        }
     }
 
     private NotificationsStatusCodes sendMessage(String message) {
@@ -49,7 +63,6 @@ public class TelegramNotificationsService {
 
         String urlString = prepareUri(botUri,token, chatId, message);
 
-        log.info("validating the urlString: {}", urlString);
         if(urlString== null || urlString.isBlank()){
             log.warn("telegram uri failed uri: {}", urlString);
             return NotificationsStatusCodes.URI_FAILED;
@@ -96,7 +109,39 @@ public class TelegramNotificationsService {
         }
     }
 
+    private NotificationsStatusCodes buildMessage(Map<String, String> messageElements, Class<?> className){
+
+        if (className == null || messageElements == null || messageElements.isEmpty()) {
+            log.info("Invalid message elements count: {}",
+                    messageElements == null ? 0 : messageElements.size());
+            return null;
+        }
+
+        String classNotifications = className.getSimpleName();
+
+        int maxLength = messageElements.keySet()
+                .stream()
+                .mapToInt(String::length)
+                .max()
+                .orElse(0)-1;
+
+        StringBuilder message = new StringBuilder();
+        message.append("<b> \uD83D\uDD25THE FUN STOCK MARKET \uD83D\uDD25</b>").append("\n\n")
+                .append("<b><i>").append(classNotifications).append("</i>\n")
+                .append("-".repeat(classNotifications.length())).append("</b>").append("\n\n");
+
+        messageElements.forEach((key, value) -> {
+            int spacesNeeded = maxLength - key.length()-1;
+
+            message .append("<b>").append(key).append("</b>")//.append(" ".repeat(Math.max(0, spacesNeeded)))
+                    .append(" : ")
+                    .append(value)
+                    .append("\n");
+        });
+        return telegramMessage(message.toString());
+    }
+
     public static String telegramTimeNow() {
-        return ZonedDateTime.now(ZONE).format(FORMATTER);
+        return timeConverterToIST(LocalDateTime.now().toString());
     }
 }

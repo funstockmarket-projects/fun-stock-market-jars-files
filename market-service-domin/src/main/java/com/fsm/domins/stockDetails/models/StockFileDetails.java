@@ -1,6 +1,7 @@
 package com.fsm.domins.stockDetails.models;
 
 import com.fsm.domins.globalenums.MarketEvents;
+import com.fsm.domins.globalenums.RecordStatus;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,4 +30,5 @@ public class StockFileDetails {
     private LocalDateTime fileUploadDate;
     private LocalDateTime fileModifiedDate = LocalDateTime.now();
     private List<Map<String, Object>> fileData;
+    private RecordStatus  recordStatus;
 }
