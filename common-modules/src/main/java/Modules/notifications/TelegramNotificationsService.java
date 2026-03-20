@@ -119,7 +119,7 @@ public class TelegramNotificationsService {
             return null;
         }
 
-        String classNotifications = "\uD83D\uDCC1 \\s\\s"+className.getSimpleName();
+        String classNotifications = "\uD83D\uDCC1 "+className.getSimpleName();
 
         int maxLength = messageElements.keySet()
                 .stream()
