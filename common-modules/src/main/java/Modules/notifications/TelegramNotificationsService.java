@@ -87,6 +87,8 @@ public class TelegramNotificationsService {
     }
 
     private String preparingEnCodeMessageForUri(String message){
+
+        message= message+ " \n\n \uD83E\uDD16 <i>Fun Market Automation System</i>";
         return URLEncoder.encode(message, StandardCharsets.UTF_8);
     }
 
@@ -117,7 +119,7 @@ public class TelegramNotificationsService {
             return null;
         }
 
-        String classNotifications = className.getSimpleName();
+        String classNotifications = "\uD83D\uDCC1 \\s\\s"+className.getSimpleName();
 
         int maxLength = messageElements.keySet()
                 .stream()

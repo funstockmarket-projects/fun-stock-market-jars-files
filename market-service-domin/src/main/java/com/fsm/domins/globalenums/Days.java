@@ -1,4 +1,4 @@
-package com.fsm.domins.information.models.constunts;
+package com.fsm.domins.globalenums;
 
 import lombok.Getter;
 

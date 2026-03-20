@@ -1,5 +1,8 @@
 package com.fsm.domins.globalenums;
 
+import lombok.Getter;
+
+@Getter
 public enum RecordStatus {
     ADDED("added"),
     REMOVED("removed"),
@@ -12,7 +15,4 @@ public enum RecordStatus {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

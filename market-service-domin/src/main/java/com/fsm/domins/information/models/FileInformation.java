@@ -1,10 +1,10 @@
 package com.fsm.domins.information.models;
 
 import com.fsm.domins.globalenums.MarketEvents;
-import com.fsm.domins.information.models.constunts.Answer;
-import com.fsm.domins.information.models.constunts.Days;
+import com.fsm.domins.globalenums.Answer;
+import com.fsm.domins.globalenums.Days;
 import com.fsm.domins.globalenums.RecordStatus;
-import com.fsm.domins.information.models.constunts.ProcessingStatus;
+import com.fsm.domins.globalenums.ProcessingStatus;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
