@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.funbroker</groupId>
+    <artifactId>funmarket-broker</artifactId>
+    <version>${funmarket-broker}</version>
+
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
         <version>1.0.18</version>
     </parent>
-
-    <groupId>fun-stock-market.domins</groupId>
-    <artifactId>market-service-domin</artifactId>
-    <version>${market-service-domin}</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -21,20 +21,12 @@
     </properties>
 
     <dependencies>
-
-        <!-- mongodb connection-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <version>3.5.6</version>
+            <groupId>fun-stock-market.domins</groupId>
+            <artifactId>market-service-domin</artifactId>
+            <version>${market-service-domin}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.42</version>
-<!--            <optional>true</optional>-->
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -42,5 +34,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
 </project>

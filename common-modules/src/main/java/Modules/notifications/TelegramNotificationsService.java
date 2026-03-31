@@ -35,8 +35,8 @@ public class TelegramNotificationsService {
     @Value("${telegram.botUri}")
     private String botUri;
 
-    @Value("${spring.profiles.active}")
-    private String profile;
+    @Value("${funmarket.notificationSwitch}")
+    private boolean notificationSwitch;
 
     public NotificationsStatusCodes sendMessage(Map<String, String> messageElements, Class<?> className){
         log.info("Collecting message information");
@@ -45,7 +45,7 @@ public class TelegramNotificationsService {
 
     public NotificationsStatusCodes telegramMessage(String message) {
 
-        if(profile.equals("prod")){
+        if(notificationSwitch){
             return sendMessage(message);
         }else{
             return null;
