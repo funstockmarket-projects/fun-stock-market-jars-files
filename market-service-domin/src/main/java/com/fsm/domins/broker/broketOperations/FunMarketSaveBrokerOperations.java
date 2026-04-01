@@ -1,6 +1,7 @@
 package com.fsm.domins.broker.broketOperations;
 
-import com.fsm.domins.broker.models.BrokerBO;
+
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import org.springframework.stereotype.Component;
 
 @Component(value = "FunMarketSaveBrokerOperations")

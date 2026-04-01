@@ -1,7 +1,6 @@
 package Modules.CommonModels.exceptions;
 
-
-import com.fsm.domins.clearing.enums.ErrorCodes;
+import com.fsm.dominsMapping.constantsBO.ErrorCodesBO;
 import lombok.Getter;
 
 @Getter
@@ -13,7 +12,7 @@ public class FileErrorContextException extends Exception{
         super(e);
     }
 
-    public FileErrorContextException(ErrorCodes code){
+    public FileErrorContextException(ErrorCodesBO code){
         super(code.toString());
         this.code = code.getCode();
         this.message = code.getMessage();

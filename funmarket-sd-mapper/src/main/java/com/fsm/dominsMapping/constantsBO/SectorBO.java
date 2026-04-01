@@ -1,9 +1,9 @@
-package com.fsm.domins.broker.constants;
+package com.fsm.dominsMapping.constantsBO;
 
 import lombok.Getter;
 
 @Getter
-public enum Sector {
+public enum SectorBO {
     FINTECH("650", "Fintech"),
     FINANCE("651", "Finance"),
     BANKING("652", "Banking");
@@ -11,7 +11,7 @@ public enum Sector {
     private final String sectorCode;
     private final String sectorName;
 
-    Sector(String number, String name) {
+    SectorBO(String number, String name) {
         this.sectorCode=number;
         this.sectorName=name;
     }

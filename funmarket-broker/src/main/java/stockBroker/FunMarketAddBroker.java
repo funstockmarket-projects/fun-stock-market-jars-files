@@ -2,8 +2,8 @@ package stockBroker;
 
 import com.fsm.domins.broker.broketOperations.FunMarketBrokerRetrievalMethods;
 import com.fsm.domins.broker.broketOperations.FunMarketSaveBrokerOperations;
-import com.fsm.domins.broker.models.BrokerBO;
 import com.fsm.domins.globalenums.RecordStatus;
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import funMarketExceptions.FunMarketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +57,10 @@ public final class FunMarketAddBroker implements FunMarketBrokerOperations {
         brokerBO.setNSE_Code(bo.getNSE_Code());
         brokerBO.setBSE_Code(bo.getBSE_Code());
         brokerBO.setSEBI_RegNo(bo.getSEBI_RegNo());
-        brokerBO.setDepository(bo.getDepository());
-        brokerBO.setType(bo.getType());
-        brokerBO.setSector(bo.getSector());
-        brokerBO.setRecordStatus(status);
+        brokerBO.setDepositoryBO(bo.getDepositoryBO());
+        brokerBO.setTypeBO(bo.getTypeBO());
+        brokerBO.setSectorBO(bo.getSectorBO());
+        brokerBO.setRecordStatusBO(com.fsm.dominsMapping.constantsBO.RecordStatusBO.valueOf(status.getValue()));
         return brokerBO;
     }
 

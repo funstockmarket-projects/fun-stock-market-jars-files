@@ -1,7 +1,7 @@
 package stockBroker;
 
 import com.fsm.domins.broker.broketOperations.FunMarketBrokerRemoveMethods;
-import com.fsm.domins.broker.models.BrokerBO;
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import funMarketExceptions.FunMarketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

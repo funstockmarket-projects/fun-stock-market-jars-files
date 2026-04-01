@@ -6,7 +6,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.18</version>
+        <version>1.0.20</version>
     </parent>
 
     <groupId>modules</groupId>
@@ -47,9 +47,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>fun-stock-market.domins</groupId>
-            <artifactId>market-service-domin</artifactId>
-            <version>${market-service-domin}</version>
+            <groupId>org.sd.mapper</groupId>
+            <artifactId>funmarket-sd-mapper</artifactId>
+            <version>${funmarket-sd-mapper}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

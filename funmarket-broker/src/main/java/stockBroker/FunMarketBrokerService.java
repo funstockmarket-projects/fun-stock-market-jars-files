@@ -4,7 +4,10 @@ import com.fsm.domins.broker.broketOperations.FunMarketBrokerRetrievalMethods;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
-import com.fsm.domins.broker.models.BrokerBO;
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
+import com.fsm.dominsMapping.constantsBO.BrokerTypeBO;
+import com.fsm.dominsMapping.constantsBO.DepositoryBO;
+import com.fsm.dominsMapping.constantsBO.SectorBO;
 import funMarketExceptions.FunMarketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,9 +98,9 @@ public class FunMarketBrokerService {
         brokerBO.setNSE_Code(NSE_Code);
         brokerBO.setBSE_Code(BSE_Code);
         brokerBO.setSEBI_RegNo(SEBI_RegNo);
-        brokerBO.setDepository(depository);
-        brokerBO.setType(type);
-        brokerBO.setSector(sector);
+        brokerBO.setDepositoryBO(DepositoryBO.valueOf(depository.getDepository()));
+        brokerBO.setTypeBO(BrokerTypeBO.valueOf(type.getBrokerType()));
+        brokerBO.setSectorBO(SectorBO.valueOf(sector.getSectorName()));
 
         return brokerBO;
 

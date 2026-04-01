@@ -2,8 +2,9 @@ package stockBroker;
 
 import com.fsm.domins.broker.broketOperations.FunMarketBrokerRetrievalMethods;
 import com.fsm.domins.broker.broketOperations.FunMarketSaveBrokerOperations;
-import com.fsm.domins.broker.models.BrokerBO;
 import com.fsm.domins.globalenums.RecordStatus;
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
+import com.fsm.dominsMapping.constantsBO.RecordStatusBO;
 import funMarketExceptions.FunMarketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,8 @@ public final class FunMarketModifyBroker implements FunMarketBrokerOperations {
     }
 
     private static void prepareBrokerBO(BrokerBO brokerBO) {
-        RecordStatus status = RecordStatus.MODIFIED;
-        brokerBO.setRecordStatus(status);
+        RecordStatusBO status = RecordStatusBO.MODIFIED;
+        brokerBO.setRecordStatusBO(status);
     }
 
     private void modifyBrokerValidation(BrokerBO brokerBO) {
@@ -65,7 +66,7 @@ public final class FunMarketModifyBroker implements FunMarketBrokerOperations {
     @Override
     public BrokerBO saveBroker(BrokerBO brokerBO) {
 
-        if(!brokerBO.getRecordStatus().equals(RecordStatus.MODIFIED)){
+        if(!brokerBO.getRecordStatusBO().getValue().equals(RecordStatus.MODIFIED.getValue())){
             log.error("You cannot save directly in [ {} ]", FunMarketModifyBroker.class.getSimpleName());
             throw new FunMarketException("You can not modify the broker in [ "+ FunMarketModifyBroker.class.getSimpleName()+" ]");
         }

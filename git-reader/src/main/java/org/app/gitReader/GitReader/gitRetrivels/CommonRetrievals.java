@@ -1,11 +1,11 @@
 package org.app.gitReader.GitReader.gitRetrivels;
 
 import Modules.CommonModels.enums.FileStatus;
-import com.fsm.domins.globalenums.MarketEvents;
 import Modules.CommonModels.exceptions.ServerExceptions;
-import com.fsm.domins.stockDetails.models.StockFileDetails;
 import Modules.CommonModels.pojo.FileName;
 import Modules.CommonModels.retrivels.ApiRetrieve;
+import com.fsm.dominsMapping.businessObject.stockDetailsBO.StockFileDetailsBO;
+import com.fsm.dominsMapping.constantsBO.MarketEventsBO;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class CommonRetrievals {
         entity = new HttpEntity<>(headers);
     }
 
-    protected Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames(String uri) {
+    protected Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames(String uri) {
         if (uri == null || uri.isBlank()) {
             throw new SecurityException("Git Uri is null");
         }
@@ -73,7 +73,7 @@ public class CommonRetrievals {
             log.error("Error while fetching fileNamesUpdatedWithStatus message: {}", e.getMessage());
         }
         List<String> finalFileNamesUpdatedWithStatus = fileNamesUpdatedWithStatus;
-        Map<String, StockFileDetails> fileNameAndUri = response.getBody().stream()
+        Map<String, StockFileDetailsBO> fileNameAndUri = response.getBody().stream()
                 .filter(filename -> {
                     String fileName = ((String) (filename.get("name"))).replace(".csv", "");
                     return !finalFileNamesUpdatedWithStatus.contains(fileName);
@@ -86,7 +86,7 @@ public class CommonRetrievals {
                             String download_url = (String) v.get("download_url");
                             Number sizeNum = (Number) v.get("size");
                             long size = sizeNum != null ? sizeNum.longValue() : 0L;
-                            StockFileDetails stockFileDetails = StockFileDetails.builder()
+                            return StockFileDetailsBO.builder()
                                     .fileName(filename)
                                     .fileType(fileType)
                                     .uri(download_url)
@@ -94,7 +94,6 @@ public class CommonRetrievals {
                                     .folderName(folderName)
                                     .fileModifiedDate(LocalDateTime.now())
                                     .build();
-                            return stockFileDetails;
                         }
                 ));
         if (fileNameAndUri.isEmpty()) {
@@ -105,14 +104,14 @@ public class CommonRetrievals {
         }
     }
 
-    protected Map<String, StockFileDetails> allEventsRetrieval(String uri) throws ServerException {
+    protected Map<String, StockFileDetailsBO> allEventsRetrieval(String uri) throws ServerException {
         log.info("All Events Retrieval Initialized");
         if (uri == null || uri.isBlank()) {
             log.info("URI is blank, fetching from application properties file");
             return Map.of();
         }
 
-        Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
+        Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
         if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("There is not files to be processed. size {}, in this Git Folder: {}", 0, folderName);
             return Map.of();
@@ -120,7 +119,7 @@ public class CommonRetrievals {
 
         List<String> getUrl = fetchCsvDownloadUrlsAndNames.values()
                 .stream()
-                .map(StockFileDetails::getUri)
+                .map(StockFileDetailsBO::getUri)
                 .map(String::valueOf)
                 .toList();
         List<String> getFileName = fetchCsvDownloadUrlsAndNames.keySet().stream().toList();
@@ -146,7 +145,7 @@ public class CommonRetrievals {
         return fetchCsvDownloadUrlsAndNames;
     }
 
-    private static Map<String, StockFileDetails> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, StockFileDetails> fetchCsvDownloadUrlsAndNames) {
+    private static Map<String, StockFileDetailsBO> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames) {
         if (allEventsRetrieval.isEmpty() || fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("allEventsRetrieval and fetchCsvDownloadUrlsAndNames is null, Can't process..");
             return Map.of();
@@ -154,21 +153,21 @@ public class CommonRetrievals {
         log.info("performing validation for file data TotalFileData: {}, TotalFiles: {}", allEventsRetrieval.size(), fetchCsvDownloadUrlsAndNames.size());
         //processing the records
         allEventsRetrieval.forEach((filename, details) -> {
-            StockFileDetails fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
+            StockFileDetailsBO fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
             if (fileDetails != null) {
                 fileDetails.setFileData(details);
                 String stringEventName = fileDetails.getFolderName();
 
                 switch (stringEventName) {
-                    case "weeklyPerformance" -> fileDetails.setEventName(MarketEvents.WEEKLY);
-                    case "yearlyPerformance" -> fileDetails.setEventName(MarketEvents.YEARLY);
-                    case "monthlyPerformance" -> fileDetails.setEventName(MarketEvents.MONTHLY);
-                    case "dailyPerformance" -> fileDetails.setEventName(MarketEvents.DAILY);
+                    case "weeklyPerformance" -> fileDetails.setEventNameBO(MarketEventsBO.WEEKLY);
+                    case "yearlyPerformance" -> fileDetails.setEventNameBO(MarketEventsBO.YEARLY);
+                    case "monthlyPerformance" -> fileDetails.setEventNameBO(MarketEventsBO.MONTHLY);
+                    case "dailyPerformance" -> fileDetails.setEventNameBO(MarketEventsBO.DAILY);
                     default ->
                             throw new RuntimeException(new ServerExceptions("Can't process the Event EventName: " + folderName));
                 }
-                log.info("Marker Event Name Noted: {}", fileDetails.getEventName().getEventName());
-                log.info("Saving the Market Event Data EventName: {}", fileDetails.getEventName().getEventName());
+                log.info("Marker Event Name Noted: {}", fileDetails.getEventNameBO().getEventName());
+                log.info("Saving the Market Event Data EventName: {}", fileDetails.getEventNameBO().getEventName());
                 fileDetails.setNumberOfRecords(details.size());
             }
         });

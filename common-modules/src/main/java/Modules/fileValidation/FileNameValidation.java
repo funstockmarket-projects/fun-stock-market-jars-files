@@ -1,6 +1,6 @@
 package Modules.fileValidation;
 
-import com.fsm.domins.clearing.enums.ErrorCodes;
+import com.fsm.dominsMapping.constantsBO.ErrorCodesBO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Month;
@@ -82,13 +82,13 @@ public class FileNameValidation {
         log.info("Starting file name validation for file name: {}", fileName);
 
         if (!isFileNameNotEmpty()) {
-            return invalidResponse(ErrorCodes.ERR_1001, "File name is empty or null");
+            return invalidResponse(ErrorCodesBO.ERR_1001, "File name is empty or null");
         }
         if (!isPatternValid()) {
-            return invalidResponse(ErrorCodes.ERR_1002, "File name pattern validation failed");
+            return invalidResponse(ErrorCodesBO.ERR_1002, "File name pattern validation failed");
         }
         if (!isTimePeriodValid()) {
-            return invalidResponse(ErrorCodes.ERR_1003, "File time period validation failed");
+            return invalidResponse(ErrorCodesBO.ERR_1003, "File time period validation failed");
         }
         return new FileValidationResponse(true, null);
     }
@@ -228,12 +228,12 @@ public class FileNameValidation {
         }
     }
 
-    private FileValidationResponse invalidResponse(ErrorCodes errorCode, String message) {
+    private FileValidationResponse invalidResponse(ErrorCodesBO errorCode, String message) {
         log.error(message);
         return new FileValidationResponse(false, errorCode);
     }
 
     // Inner class to hold parsed file name components
-        private record FileNameParts(long serialNumber, int year, int timePeriod, String eventName, String monthName) {
+    private record FileNameParts(long serialNumber, int year, int timePeriod, String eventName, String monthName) {
     }
 }

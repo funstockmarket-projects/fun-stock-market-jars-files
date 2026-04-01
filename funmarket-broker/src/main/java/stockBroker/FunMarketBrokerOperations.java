@@ -1,6 +1,6 @@
 package stockBroker;
 
-import com.fsm.domins.broker.models.BrokerBO;
+import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import funMarketExceptions.FunMarketException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,13 +23,13 @@ public sealed interface FunMarketBrokerOperations permits FunMarketAddBroker, Fu
         if (!StringUtils.hasText(brokerBO.getBrokerName()) || brokerBO.getBrokerName().isBlank()) {
             BrokerThrowException("Broker name cannot be null or blank");
         }
-        if (Objects.isNull(brokerBO.getDepository())) {
+        if (Objects.isNull(brokerBO.getDepositoryBO())) {
             BrokerThrowException("Depository cannot be null");
         }
-        if (Objects.isNull(brokerBO.getType())) {
+        if (Objects.isNull(brokerBO.getTypeBO())) {
             BrokerThrowException("Broker type cannot be null");
         }
-        if (Objects.isNull(brokerBO.getSector())) {
+        if (Objects.isNull(brokerBO.getSectorBO())) {
             BrokerThrowException("Sector cannot be null");
         }
     }

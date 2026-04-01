@@ -7,7 +7,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.18</version>
+        <version>1.0.20</version>
     </parent>
 
     <groupId>fun-stock-market.domins</groupId>
@@ -30,16 +30,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.42</version>
-<!--            <optional>true</optional>-->
+            <groupId>org.sd.mapper</groupId>
+            <artifactId>funmarket-sd-mapper</artifactId>
+            <version>${funmarket-sd-mapper}</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.42</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -3,9 +3,9 @@ package Modules.CommonModels.commonServices;
 import Modules.CommonModels.exceptions.FileErrorContextException;
 import Modules.fileValidation.FileNameValidation;
 import Modules.fileValidation.FileValidationResponse;
-import com.fsm.domins.clearing.enums.ErrorCodes;
-import com.fsm.domins.stockDetails.models.StockFileDetails;
-import com.fsm.domins.globalenums.MarketEvents;
+import com.fsm.dominsMapping.businessObject.stockDetailsBO.StockFileDetailsBO;
+import com.fsm.dominsMapping.constantsBO.ErrorCodesBO;
+import com.fsm.dominsMapping.constantsBO.MarketEventsBO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
@@ -16,17 +16,17 @@ public class FileValidationService {
     private static final Set<String> VALID_EVENT_TYPES = Set.of("DAILY", "MONTHLY", "WEEKLY", "YEARLY");
     private static final long MIN_RECORDS = 1L;
 
-    public void getFileValidationStatus(StockFileDetails stockFileDetails) throws FileErrorContextException {
-        log.debug("Starting validation for StockFileDetails");
+    public void getFileValidationStatus(StockFileDetailsBO StockFileDetailsBO) throws FileErrorContextException {
+        log.debug("Starting validation for StockFileDetailsBO");
 
-        require(stockFileDetails != null, ErrorCodes.ERR_3002, "StockFileDetails cannot be null");
+        require(StockFileDetailsBO != null, ErrorCodesBO.ERR_3002, "StockFileDetailsBO cannot be null");
 
-        assert stockFileDetails != null;
-        validateFileName(stockFileDetails.getFileName());
-        validateFileMetadata(stockFileDetails);
-        validateFileProperties(stockFileDetails);
-        validateFileContent(stockFileDetails);
-        validateEventDetails(stockFileDetails);
+        assert StockFileDetailsBO != null;
+        validateFileName(StockFileDetailsBO.getFileName());
+        validateFileMetadata(StockFileDetailsBO);
+        validateFileProperties(StockFileDetailsBO);
+        validateFileContent(StockFileDetailsBO);
+        validateEventDetails(StockFileDetailsBO);
 
         log.info("All validations passed successfully");
     }
@@ -40,42 +40,42 @@ public class FileValidationService {
         }
     }
 
-    private void validateFileMetadata(StockFileDetails details) throws FileErrorContextException {
-        require(isNotBlank(details.getFileUUID()), ErrorCodes.ERR_3002, "File UUID cannot be empty");
-        require(isNotBlank(details.getFolderName()), ErrorCodes.ERR_3003, "Folder name cannot be empty");
-        require(isNotBlank(details.getFileType()), ErrorCodes.ERR_3004, "File type cannot be empty");
+    private void validateFileMetadata(StockFileDetailsBO details) throws FileErrorContextException {
+        require(isNotBlank(details.getFileUUID()), ErrorCodesBO.ERR_3002, "File UUID cannot be empty");
+        require(isNotBlank(details.getFolderName()), ErrorCodesBO.ERR_3003, "Folder name cannot be empty");
+        require(isNotBlank(details.getFileType()), ErrorCodesBO.ERR_3004, "File type cannot be empty");
         log.debug("File metadata validation passed");
     }
 
-    private void validateFileProperties(StockFileDetails details) throws FileErrorContextException {
-        require(details.getFileSize() != null, ErrorCodes.ERR_3005, "File size cannot be null");
-        require(details.getFileSize() > 0, ErrorCodes.ERR_3005, "File size must be greater than 0");
+    private void validateFileProperties(StockFileDetailsBO details) throws FileErrorContextException {
+        require(details.getFileSize() != null, ErrorCodesBO.ERR_3005, "File size cannot be null");
+        require(details.getFileSize() > 0, ErrorCodesBO.ERR_3005, "File size must be greater than 0");
 
-        require(details.getNumberOfRecords() >= MIN_RECORDS, ErrorCodes.ERR_3006,
+        require(details.getNumberOfRecords() >= MIN_RECORDS, ErrorCodesBO.ERR_3006,
                 "Number of records must be at least " + MIN_RECORDS);
 
         log.debug("File properties validation passed - Size: {}, Records: {}",
                 details.getFileSize(), details.getNumberOfRecords());
     }
 
-    private void validateFileContent(StockFileDetails details) throws FileErrorContextException {
-        require(isNotBlank(details.getUri()), ErrorCodes.ERR_3007, "URI cannot be empty");
+    private void validateFileContent(StockFileDetailsBO details) throws FileErrorContextException {
+        require(isNotBlank(details.getUri()), ErrorCodesBO.ERR_3007, "URI cannot be empty");
         require(details.getFileData() != null && !details.getFileData().isEmpty(),
-                ErrorCodes.ERR_3008, "File data cannot be empty");
+                ErrorCodesBO.ERR_3008, "File data cannot be empty");
 
         log.debug("File content validation passed");
     }
 
-    private void validateEventDetails(StockFileDetails details) throws FileErrorContextException {
-        require(details.getFileUploadDate() != null, ErrorCodes.ERR_3009, "Upload date cannot be null");
-        require(details.getFileModifiedDate() != null, ErrorCodes.ERR_3010, "Modified date cannot be null");
+    private void validateEventDetails(StockFileDetailsBO details) throws FileErrorContextException {
+        require(details.getFileUploadDate() != null, ErrorCodesBO.ERR_3009, "Upload date cannot be null");
+        require(details.getFileModifiedDate() != null, ErrorCodesBO.ERR_3010, "Modified date cannot be null");
 
-        MarketEvents eventName = details.getEventName();
-        require(eventName != null, ErrorCodes.ERR_3012, "Event name cannot be null");
+        MarketEventsBO eventName = details.getEventNameBO();
+        require(eventName != null, ErrorCodesBO.ERR_3012, "Event name cannot be null");
 
         String eventValue = eventName.getEventName();
         require(eventValue != null && VALID_EVENT_TYPES.contains(eventValue.toUpperCase()),
-                ErrorCodes.ERR_3012, "Invalid event type: " + eventValue);
+                ErrorCodesBO.ERR_3012, "Invalid event type: " + eventValue);
 
         log.debug("Event details validation passed - Event: {}", eventValue);
     }
@@ -84,7 +84,7 @@ public class FileValidationService {
         return value != null && !value.isEmpty();
     }
 
-    private void require(boolean condition, ErrorCodes errorCode, String message) throws FileErrorContextException {
+    private void require(boolean condition, ErrorCodesBO errorCode, String message) throws FileErrorContextException {
         if (!condition) {
             log.error("Validation failed: {} [{}]", message, errorCode.toString());
             throw new FileErrorContextException(errorCode);
