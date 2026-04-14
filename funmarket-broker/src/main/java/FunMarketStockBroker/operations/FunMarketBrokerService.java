@@ -1,14 +1,11 @@
 package FunMarketStockBroker.operations;
 
-import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
+import com.fsm.domainsMapping.constantsBO.*;
 import com.fsm.domins.broker.broketOperations.FunMarketBrokerRetrievalMethods;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
 import com.fsm.domainsMapping.businessObject.brokerBO.BrokerBO;
-import com.fsm.domainsMapping.constantsBO.BrokerTypeBO;
-import com.fsm.domainsMapping.constantsBO.DepositoryBO;
-import com.fsm.domainsMapping.constantsBO.SectorBO;
 import funMarketExceptions.FunMarketException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.Objects;
+
+import static FunMarketUtils.Utils.UNKNOWN;
 
 @Service(value = "FunMarketBrokerService")
 public class FunMarketBrokerService {
@@ -85,15 +84,16 @@ public class FunMarketBrokerService {
 
     private static BrokerBO prepareBroker(Map<String, String> broker, BrokerBO brokerBO) {
 
-        String brokerName = broker.getOrDefault("brokerName", "");
-        String brokerIdentifier = broker.getOrDefault("brokerIdentifier", "");
-        String NSE_Code = broker.getOrDefault("NSE_Code", "");
-        String BSE_Code = broker.getOrDefault("BSE_Code", "");
-        String SEBI_RegNo = broker.getOrDefault("SEBI_RegNo", "");
-        Depository depository = Depository.valueOf(broker.getOrDefault("Depository", ""));
-        BrokerType type = BrokerType.valueOf(broker.getOrDefault("type", ""));
-        Sector sector = Sector.valueOf(broker.getOrDefault("Sector", ""));
+        String brokerName = broker.getOrDefault("brokerName", UNKNOWN);
+        String brokerIdentifier = broker.getOrDefault("brokerIdentifier", UNKNOWN);
+        String NSE_Code = broker.getOrDefault("NSE_Code", UNKNOWN);
+        String BSE_Code = broker.getOrDefault("BSE_Code", UNKNOWN);
+        String SEBI_RegNo = broker.getOrDefault("SEBI_RegNo", UNKNOWN);
+        Depository depository = Depository.valueOf(broker.getOrDefault("Depository", Depository.CDSL.getDepository()));
+        BrokerType type = BrokerType.valueOf(broker.getOrDefault("type", BrokerType.FULL_SERVICE.getBrokerType()));
+        Sector sector = Sector.valueOf(broker.getOrDefault("Sector", Sector.FINANCE.getSectorName()));
         RecordStatusBO recordStatusBO = RecordStatusBO.valueOf(broker.getOrDefault("recordStatus", "ADDED"));
+        BrokerStatusBO brokerStatusBO = BrokerStatusBO.valueOf(broker.getOrDefault("brokerStatus", "ACTIVE"));
 
         brokerBO.setBrokerIdentifier(brokerIdentifier);
         brokerBO.setBrokerName(brokerName);
@@ -104,6 +104,7 @@ public class FunMarketBrokerService {
         brokerBO.setTypeBO(BrokerTypeBO.valueOf(type.getBrokerType()));
         brokerBO.setSectorBO(SectorBO.valueOf(sector.getSectorName()));
         brokerBO.setRecordStatusBO(recordStatusBO);
+        brokerBO.setBrokerStatusBO(brokerStatusBO);
 
         return brokerBO;
 

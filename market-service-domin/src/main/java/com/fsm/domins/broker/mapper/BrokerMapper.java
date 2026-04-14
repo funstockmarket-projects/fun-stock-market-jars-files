@@ -1,10 +1,8 @@
 package com.fsm.domins.broker.mapper;
 
 import com.fsm.domainsMapping.businessObject.brokerBO.BrokerBO;
-import com.fsm.domainsMapping.constantsBO.BrokerTypeBO;
-import com.fsm.domainsMapping.constantsBO.DepositoryBO;
-import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
-import com.fsm.domainsMapping.constantsBO.SectorBO;
+import com.fsm.domainsMapping.constantsBO.*;
+import com.fsm.domins.broker.constants.BrokerStatus;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
@@ -24,6 +22,7 @@ public class BrokerMapper {
                 .depository(Depository.valueOf(broker.getDepositoryBO().getDepository()))
                 .type(BrokerType.valueOf(broker.getTypeBO().getBrokerType()))
                 .sector(Sector.valueOf(broker.getSectorBO().getSectorName()))
+                .brokerStatus(BrokerStatus.valueOf(broker.getBrokerStatusBO().name()))
                 .recordStatus(RecordStatus.valueOf(broker.getRecordStatusBO().getValue()))
                 .build();
     }
@@ -54,6 +53,7 @@ public class BrokerMapper {
         broker.setDepositoryBO(DepositoryBO.valueOf(brokerBO.depository().getDepository()));
         broker.setTypeBO(BrokerTypeBO.valueOf(brokerBO.type().getBrokerType()));
         broker.setSectorBO(SectorBO.valueOf(brokerBO.sector().getSectorName()));
+        broker.setBrokerStatusBO(BrokerStatusBO.valueOf(broker.getBrokerStatusBO().name()));
         broker.setRecordStatusBO(RecordStatusBO.valueOf(brokerBO.recordStatus().getValue()));
         return broker;
     }

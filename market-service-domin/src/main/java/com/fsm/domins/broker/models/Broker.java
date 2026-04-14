@@ -1,5 +1,6 @@
 package com.fsm.domins.broker.models;
 
+import com.fsm.domins.broker.constants.BrokerStatus;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
@@ -7,7 +8,7 @@ import com.fsm.domins.globalenums.RecordStatus;
 import lombok.Builder;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection="broker")
+@Document(collection = "broker")
 @Builder
 public record Broker(String brokerUUid,
                      String brokerIdentifier,
@@ -18,4 +19,6 @@ public record Broker(String brokerUUid,
                      Depository depository,
                      BrokerType type,
                      Sector sector,
-                     RecordStatus recordStatus) {}
+                     BrokerStatus brokerStatus,
+                     RecordStatus recordStatus) {
+}

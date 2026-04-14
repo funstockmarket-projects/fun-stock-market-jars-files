@@ -6,7 +6,7 @@
 
     <groupId>org.sd.mapper</groupId>
     <artifactId>funmarket-sd-mapper</artifactId>
-    <version>1.0.3</version>
+    <version>${funmarket-sd-mapper}</version>
 
     <parent>
         <groupId>funstock.market</groupId>

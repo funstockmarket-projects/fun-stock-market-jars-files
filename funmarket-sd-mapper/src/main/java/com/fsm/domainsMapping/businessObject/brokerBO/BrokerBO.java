@@ -1,9 +1,6 @@
 package com.fsm.domainsMapping.businessObject.brokerBO;
 
-import com.fsm.domainsMapping.constantsBO.BrokerTypeBO;
-import com.fsm.domainsMapping.constantsBO.DepositoryBO;
-import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
-import com.fsm.domainsMapping.constantsBO.SectorBO;
+import com.fsm.domainsMapping.constantsBO.*;
 import lombok.*;
 
 @Builder
@@ -21,6 +18,7 @@ public class BrokerBO {
     private DepositoryBO depositoryBO;
     private BrokerTypeBO typeBO;
     private SectorBO sectorBO;
+    private BrokerStatusBO brokerStatusBO;
     private RecordStatusBO recordStatusBO;
 }
 
