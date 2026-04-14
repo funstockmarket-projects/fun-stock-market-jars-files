@@ -8,10 +8,10 @@ import java.util.Optional;
 @Getter
 public enum MarketEvents {
 
-    WEEKLY("weekly"),
-    MONTHLY("monthly"),
-    DAILY("daily"),
-    YEARLY("yearly");
+    WEEKLY("WEEKLY"),
+    MONTHLY("MONTHLY"),
+    DAILY("DAILY"),
+    YEARLY("YEARLY");
 
     private final String eventName;
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.20</version>
+        <version>1.0.21</version>
     </parent>
 
     <groupId>modules</groupId>
@@ -45,11 +45,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.sd.mapper</groupId>
-            <artifactId>funmarket-sd-mapper</artifactId>
-            <version>${funmarket-sd-mapper}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

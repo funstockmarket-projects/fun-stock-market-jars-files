@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum Answer {
-    Y("YES"),
-    N("NO");
+    Y("Y"),
+    N("N");
 
     private final String value;
 

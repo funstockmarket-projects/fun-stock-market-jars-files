@@ -1,8 +1,8 @@
 package com.fsm.domins.broker.broketOperations;
 
+import com.fsm.domainsMapping.businessObject.brokerBO.BrokerBO;
 import com.fsm.domins.broker.models.Broker;
 import com.fsm.domins.broker.repository.BrokerRepository;
-import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

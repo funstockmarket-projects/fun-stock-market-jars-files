@@ -24,7 +24,20 @@ public enum ErrorCodes {
     ERR_0000("0000", "Unknown error"),
     ERR_0001("0001", "File processing failed"),
     ERR_0002("0002", "File Details Modified"),
-    ERR_5001("5001", "File name exist");
+    ERR_5001("5001", "File name exist"),
+
+    ERR_100("100", "No matching record"),
+    ERR_101("101", "File UUID not matched"),
+    ERR_102("102", "File name not matched"),
+    ERR_103("103", "Created date not matched"),
+
+    ERR_301("301", "Uploaded holiday file"),
+    ERR_302("302", "Uploaded weekend file"),
+
+    ERR_401("401", "File Folder Not Match"),
+
+    ERR_501("501", "Invalid Year"),
+    ERR_502("502", "Duplicate FileName");
 
 
     private final String code;

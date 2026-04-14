@@ -1,6 +1,6 @@
 package com.fsm.domins.marketHolidayCalender.validationService;
 
-import com.fsm.domins.marketHolidayCalender.models.HolidayCalendar;
+import com.fsm.domainsMapping.businessObject.marketHolidayCalender.HolidayCalendarBO;
 import com.fsm.domins.marketHolidayCalender.models.constants.ErrorCalendar;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,18 +12,18 @@ import static com.fsm.domins.marketHolidayCalender.models.constants.ErrorCalenda
 @Slf4j
 public class CalendarValidationService {
 
-    public ErrorCalendar validateHolidayWithExistingHolidays(List<HolidayCalendar> holidayCalendarList, HolidayCalendar holidayCalendar){
+    public ErrorCalendar validateHolidayWithExistingHolidays(List<HolidayCalendarBO> holidayCalendarList, HolidayCalendarBO holidayCalendar) {
 
         String year = holidayCalendar.getYear();
         String holidayAt = holidayCalendar.getHolidayAt();
-        String day = holidayCalendar.getDay().getValue();
+        String day = holidayCalendar.getDayBO().getValue();
         String description = holidayCalendar.getDescription();
 
-        if(year.isBlank() || holidayAt.isBlank() || day.isBlank() || description.isBlank()){
+        if (year.isBlank() || holidayAt.isBlank() || day.isBlank() || description.isBlank()) {
             log.error("Invalid Date: {}", holidayCalendar);
             return ERR_001;
         }
-        if(Integer.parseInt(year) > LocalDate.now().getYear()){
+        if (Integer.parseInt(year) > LocalDate.now().getYear()) {
             log.error("Invalid year can't grater than the present year. Year :{}", year);
             return ERR_003;
         }
@@ -33,7 +33,7 @@ public class CalendarValidationService {
                 .filter(exiDate -> exiDate.getHolidayAt().equals(holidayAt))
                 .toList().isEmpty();
 
-        if(!checkingWithExistingDate){
+        if (!checkingWithExistingDate) {
             return ERR_002;
         }
         return ERR_000;

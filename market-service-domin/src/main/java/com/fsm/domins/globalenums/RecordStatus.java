@@ -4,10 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum RecordStatus {
-    ADDED("added"),
-    REMOVED("removed"),
-    MODIFIED("modified"),
-    FILE_DATA_MODIFIED("file_data_modified");
+    ADDED("ADDED"),
+    REMOVED("REMOVED"),
+    MODIFIED("MODIFIED"),
+    UNKNOWN("UNKNOWN"),
+    FILE_DATA_MODIFIED("FILE_DATA_MODIFIED");
 
     private final String value;
 

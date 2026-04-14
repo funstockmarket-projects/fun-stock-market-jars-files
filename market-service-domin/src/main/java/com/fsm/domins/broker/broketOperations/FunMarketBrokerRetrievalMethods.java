@@ -1,10 +1,10 @@
 package com.fsm.domins.broker.broketOperations;
 
+import com.fsm.domainsMapping.businessObject.brokerBO.BrokerBO;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
 
-import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

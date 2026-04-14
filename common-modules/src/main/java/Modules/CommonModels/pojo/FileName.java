@@ -11,9 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Slf4j
 public class FileName {
-    static {
-        log.info("FileName POJO Initialized");
-    }
 
     private String fileName;
     private FileStatus fileStatus;

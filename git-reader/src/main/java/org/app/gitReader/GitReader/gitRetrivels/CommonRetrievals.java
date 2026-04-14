@@ -4,13 +4,13 @@ import Modules.CommonModels.enums.FileStatus;
 import Modules.CommonModels.exceptions.ServerExceptions;
 import Modules.CommonModels.pojo.FileName;
 import Modules.CommonModels.retrivels.ApiRetrieve;
-import com.fsm.dominsMapping.businessObject.stockDetailsBO.StockFileDetailsBO;
-import com.fsm.dominsMapping.constantsBO.MarketEventsBO;
+import com.fsm.domainsMapping.businessObject.stockDetailsBO.FileMetadataBO;
+import com.fsm.domainsMapping.constantsBO.MarketEventsBO;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.app.gitReader.GitReader.apiRetrivels.DataRetrieve;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,10 +29,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static Modules.CommonModels.enums.FileValidationStatus.CLEARED;
-import static Modules.CommonModels.enums.helperConstants.VALIDATED;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CommonRetrievals {
 
     static private final RestTemplate restTemplate = new RestTemplate();
@@ -41,8 +41,7 @@ public class CommonRetrievals {
     private static String folderName;
     private static final String token = ApiRetrieve.applicationPropertiesReader("market_gitURI.properties", "marketAnalysis.gitReader.gitToken");
 
-    @Autowired
-    private DataRetrieve dataRetrieve = new DataRetrieve();
+    private final DataRetrieve dataRetrieve;
 
     static {
         log.info("CommonRetrievals Initialized");
@@ -50,7 +49,7 @@ public class CommonRetrievals {
         entity = new HttpEntity<>(headers);
     }
 
-    protected Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames(String uri) {
+    protected Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames(String uri) {
         if (uri == null || uri.isBlank()) {
             throw new SecurityException("Git Uri is null");
         }
@@ -73,7 +72,7 @@ public class CommonRetrievals {
             log.error("Error while fetching fileNamesUpdatedWithStatus message: {}", e.getMessage());
         }
         List<String> finalFileNamesUpdatedWithStatus = fileNamesUpdatedWithStatus;
-        Map<String, StockFileDetailsBO> fileNameAndUri = response.getBody().stream()
+        Map<String, FileMetadataBO> fileNameAndUri = response.getBody().stream()
                 .filter(filename -> {
                     String fileName = ((String) (filename.get("name"))).replace(".csv", "");
                     return !finalFileNamesUpdatedWithStatus.contains(fileName);
@@ -86,7 +85,7 @@ public class CommonRetrievals {
                             String download_url = (String) v.get("download_url");
                             Number sizeNum = (Number) v.get("size");
                             long size = sizeNum != null ? sizeNum.longValue() : 0L;
-                            return StockFileDetailsBO.builder()
+                            return FileMetadataBO.builder()
                                     .fileName(filename)
                                     .fileType(fileType)
                                     .uri(download_url)
@@ -99,19 +98,19 @@ public class CommonRetrievals {
         if (fileNameAndUri.isEmpty()) {
             log.info("No Incomplete files founded in this folder: {}", folderName);
             return Map.of();
-        }else{
+        } else {
             return fileNameAndUri; //filename, fileDetails
         }
     }
 
-    protected Map<String, StockFileDetailsBO> allEventsRetrieval(String uri) throws ServerException {
+    protected Map<String, FileMetadataBO> allEventsRetrieval(String uri) throws ServerException {
         log.info("All Events Retrieval Initialized");
         if (uri == null || uri.isBlank()) {
             log.info("URI is blank, fetching from application properties file");
             return Map.of();
         }
 
-        Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
+        Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
         if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("There is not files to be processed. size {}, in this Git Folder: {}", 0, folderName);
             return Map.of();
@@ -119,7 +118,7 @@ public class CommonRetrievals {
 
         List<String> getUrl = fetchCsvDownloadUrlsAndNames.values()
                 .stream()
-                .map(StockFileDetailsBO::getUri)
+                .map(FileMetadataBO::getUri)
                 .map(String::valueOf)
                 .toList();
         List<String> getFileName = fetchCsvDownloadUrlsAndNames.keySet().stream().toList();
@@ -140,12 +139,12 @@ public class CommonRetrievals {
         }
         if (!allEventsRetrieval.isEmpty()) {
             log.info("Performing Market Event, EventName: {}", folderName);
-            fetchCsvDownloadUrlsAndNames = fileDataValidation(allEventsRetrieval, fetchCsvDownloadUrlsAndNames);// fileName, fileDetails
+            fetchCsvDownloadUrlsAndNames = fileDataValidation(allEventsRetrieval, fetchCsvDownloadUrlsAndNames);
         }
         return fetchCsvDownloadUrlsAndNames;
     }
 
-    private static Map<String, StockFileDetailsBO> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, StockFileDetailsBO> fetchCsvDownloadUrlsAndNames) {
+    private static Map<String, FileMetadataBO> fileDataValidation(Map<String, List<Map<String, Object>>> allEventsRetrieval, Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames) {
         if (allEventsRetrieval.isEmpty() || fetchCsvDownloadUrlsAndNames.isEmpty()) {
             log.info("allEventsRetrieval and fetchCsvDownloadUrlsAndNames is null, Can't process..");
             return Map.of();
@@ -153,7 +152,7 @@ public class CommonRetrievals {
         log.info("performing validation for file data TotalFileData: {}, TotalFiles: {}", allEventsRetrieval.size(), fetchCsvDownloadUrlsAndNames.size());
         //processing the records
         allEventsRetrieval.forEach((filename, details) -> {
-            StockFileDetailsBO fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
+            FileMetadataBO fileDetails = fetchCsvDownloadUrlsAndNames.get(filename);
             if (fileDetails != null) {
                 fileDetails.setFileData(details);
                 String stringEventName = fileDetails.getFolderName();

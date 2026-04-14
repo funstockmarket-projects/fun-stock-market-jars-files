@@ -11,28 +11,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Document(collection = "holiday_calendar")
-public class HolidayCalendar {
+public record HolidayCalendar (
 
     @Id
-    private String recordUuid;
-
-    private String year;
-
-    private String holidayAt;
-
-    private Days day;
-
-    private String description;
-
-    private LocalDate creationOrModificationDate;
-
-    private RecordStatus gitHubFileStatus;
-
-    private RecordStatus recordStatus;
-
-}
+    String recordUuid,
+    String year,
+    String holidayAt,
+    Days day,
+    String description,
+    LocalDate creationOrModificationDate,
+    RecordStatus gitHubFileStatus,
+    RecordStatus recordStatus){}

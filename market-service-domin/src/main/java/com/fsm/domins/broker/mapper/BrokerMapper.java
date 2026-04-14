@@ -1,12 +1,15 @@
 package com.fsm.domins.broker.mapper;
 
+import com.fsm.domainsMapping.businessObject.brokerBO.BrokerBO;
+import com.fsm.domainsMapping.constantsBO.BrokerTypeBO;
+import com.fsm.domainsMapping.constantsBO.DepositoryBO;
+import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
+import com.fsm.domainsMapping.constantsBO.SectorBO;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
 import com.fsm.domins.broker.constants.Sector;
 import com.fsm.domins.broker.models.Broker;
 import com.fsm.domins.globalenums.RecordStatus;
-import com.fsm.dominsMapping.businessObject.brokerBO.BrokerBO;
-import com.fsm.dominsMapping.constantsBO.*;
 
 public class BrokerMapper {
 
@@ -25,6 +28,22 @@ public class BrokerMapper {
                 .build();
     }
     public static BrokerBO BrokerToBO(Broker brokerBO){
+        if (brokerBO == null) {
+            throw new IllegalArgumentException("Broker cannot be null");
+        }
+        if (brokerBO.depository() == null) {
+            throw new IllegalArgumentException("Depository cannot be null");
+        }
+        if (brokerBO.type() == null) {
+            throw new IllegalArgumentException("BrokerType cannot be null");
+        }
+        if (brokerBO.sector() == null) {
+            throw new IllegalArgumentException("Sector cannot be null");
+        }
+        if (brokerBO.recordStatus() == null) {
+            throw new IllegalArgumentException("RecordStatus cannot be null");
+        }
+        
         BrokerBO broker = new BrokerBO();
         broker.setBrokerUUid(brokerBO.brokerUUid());
         broker.setBrokerIdentifier(brokerBO.brokerIdentifier());

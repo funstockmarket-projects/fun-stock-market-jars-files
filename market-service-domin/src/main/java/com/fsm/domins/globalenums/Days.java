@@ -10,7 +10,9 @@ public enum Days {
     WEDNESDAY("WEDNESDAY"),
     THURSDAY("THURSDAY"),
     FRIDAY("FRIDAY"),
-    SATURDAY("SATURDAY");
+    SATURDAY("SATURDAY"),
+    UNKNOWN("UNKNOWN");
+
 
     private final String value;
 
@@ -18,7 +20,4 @@ public enum Days {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

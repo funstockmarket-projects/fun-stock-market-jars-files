@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface FileClearingRepo extends MongoRepository<FileClearing, String> {
 
     FileClearing findByFileUuid(String fileUuid);
+
+    void deleteByFileUuid(String fileUuid);
 }

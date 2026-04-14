@@ -3,6 +3,7 @@ package org.app.gitReader.GitReader.apiRetrivels;
 import Modules.CommonModels.exceptions.ServerExceptions;
 import Modules.CommonModels.response.ApiResponse;
 import Modules.CommonModels.retrivels.ApiRetrieve;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -15,10 +16,10 @@ import static Modules.CommonModels.enums.helperConstants.*;
 import static Modules.CommonModels.response.ApiResponse.apiConnector;
 
 @Component
+@RequiredArgsConstructor
 public class DataRetrieve {
 
-    @Autowired
-    private ApiRetrieve apiRetrieve;
+    private final ApiRetrieve apiRetrieve;
 
     public List<String> getFileNamesUpdatedWithStatus(String status) throws ServerExceptions {
         return switch (status) {
