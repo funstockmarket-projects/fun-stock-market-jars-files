@@ -1,5 +1,6 @@
 package FunMarketStockBroker.operations;
 
+import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
 import com.fsm.domins.broker.broketOperations.FunMarketBrokerRetrievalMethods;
 import com.fsm.domins.broker.constants.BrokerType;
 import com.fsm.domins.broker.constants.Depository;
@@ -92,6 +93,7 @@ public class FunMarketBrokerService {
         Depository depository = Depository.valueOf(broker.getOrDefault("Depository", ""));
         BrokerType type = BrokerType.valueOf(broker.getOrDefault("type", ""));
         Sector sector = Sector.valueOf(broker.getOrDefault("Sector", ""));
+        RecordStatusBO recordStatusBO = RecordStatusBO.valueOf(broker.getOrDefault("recordStatus", "ADDED"));
 
         brokerBO.setBrokerIdentifier(brokerIdentifier);
         brokerBO.setBrokerName(brokerName);
@@ -101,6 +103,7 @@ public class FunMarketBrokerService {
         brokerBO.setDepositoryBO(DepositoryBO.valueOf(depository.getDepository()));
         brokerBO.setTypeBO(BrokerTypeBO.valueOf(type.getBrokerType()));
         brokerBO.setSectorBO(SectorBO.valueOf(sector.getSectorName()));
+        brokerBO.setRecordStatusBO(recordStatusBO);
 
         return brokerBO;
 
