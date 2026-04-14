@@ -60,12 +60,12 @@
         <dependency>
             <groupId>modules</groupId>
             <artifactId>common-modules</artifactId>
-            <version>${common-version}</version>
+            <version>1.0.22</version>
         </dependency>
         <dependency>
             <groupId>org.sd.mapper</groupId>
             <artifactId>funmarket-sd-mapper</artifactId>
-            <version>${funmarket-sd-mapper}</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>com.opencsv</groupId>

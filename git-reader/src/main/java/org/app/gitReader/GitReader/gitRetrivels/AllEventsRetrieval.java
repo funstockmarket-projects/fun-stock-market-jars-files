@@ -26,10 +26,10 @@ public class AllEventsRetrieval {
     public Map<String, Map<String, FileMetadataBO>> returnAllEvents() {
         try {
             return Map.of(
-                    MarketEventsBO.YEARLY.getEventName(), commonRetrievals.allEventsRetrieval(YEARLY_URI)
+//                    MarketEventsBO.YEARLY.getEventName(), commonRetrievals.allEventsRetrieval(YEARLY_URI)
 //                    MarketEventsBO.MONTHLY.getEventName(), commonRetrievals.allEventsRetrieval(MONTHLY_URI),
 //                    MarketEventsBO.WEEKLY.getEventName(), commonRetrievals.allEventsRetrieval(WEEKLY_URI),
-//                    MarketEventsBO.DAILY.getEventName(), commonRetrievals.allEventsRetrieval(DAILY_URI)
+                    MarketEventsBO.DAILY.getEventName(), commonRetrievals.allEventsRetrieval(DAILY_URI)
             );
         } catch (ServerException e) {
             throw new RuntimeException(e);
