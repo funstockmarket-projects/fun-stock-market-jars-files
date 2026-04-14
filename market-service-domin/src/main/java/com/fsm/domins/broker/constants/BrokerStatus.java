@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum BrokerStatus {
-    ACTIVE("100", "Active"),
-    INACTIVE("101", "Inactive"),
-    SUSPENDED("102", "Suspended");
+    ACTIVE("100", "ACTIVE"),
+    INACTIVE("101", "INACTIVE"),
+    SUSPENDED("102", "SUSPENDED");
 
     private final String statusCode;
     private final String status;

@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum SectorBO {
-    FINTECH("650", "Fintech"),
-    FINANCE("651", "Finance"),
-    BANKING("652", "Banking");
+    FINTECH("650", "FINTECH"),
+    FINANCE("651", "FINANCE"),
+    BANKING("652", "BANKING");
 
     private final String sectorCode;
     private final String sectorName;

@@ -89,9 +89,9 @@ public class FunMarketBrokerService {
         String NSE_Code = broker.getOrDefault("NSE_Code", UNKNOWN);
         String BSE_Code = broker.getOrDefault("BSE_Code", UNKNOWN);
         String SEBI_RegNo = broker.getOrDefault("SEBI_RegNo", UNKNOWN);
-        Depository depository = Depository.valueOf(broker.getOrDefault("Depository", Depository.CDSL.getDepository()));
-        BrokerType type = BrokerType.valueOf(broker.getOrDefault("type", BrokerType.FULL_SERVICE.getBrokerType()));
-        Sector sector = Sector.valueOf(broker.getOrDefault("Sector", Sector.FINANCE.getSectorName()));
+        Depository depository = Depository.valueOf(broker.getOrDefault("depository", DepositoryBO.CDSL.getDepository()));
+        BrokerType type = BrokerType.valueOf(broker.getOrDefault("type", BrokerTypeBO.FULL_SERVICE.getBrokerType()));
+        Sector sector = Sector.valueOf(broker.getOrDefault("sector", SectorBO.FINANCE.getSectorName()));
         RecordStatusBO recordStatusBO = RecordStatusBO.valueOf(broker.getOrDefault("recordStatus", "ADDED"));
         BrokerStatusBO brokerStatusBO = BrokerStatusBO.valueOf(broker.getOrDefault("brokerStatus", "ACTIVE"));
 

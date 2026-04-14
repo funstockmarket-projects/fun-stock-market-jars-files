@@ -26,7 +26,12 @@
         <dependency>
             <groupId>fun-stock-market.domins</groupId>
             <artifactId>market-service-domin</artifactId>
-            <version>${market-service-domin}</version>
+            <version>1.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sd.mapper</groupId>
+            <artifactId>funmarket-sd-mapper</artifactId>
+            <version>1.0.5</version>
         </dependency>
 
         <dependency>

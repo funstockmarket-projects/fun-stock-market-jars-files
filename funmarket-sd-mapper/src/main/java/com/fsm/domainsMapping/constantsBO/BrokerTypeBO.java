@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public enum BrokerTypeBO {
 
-    DISCOUNT("250","Discount"),
-    HYBRID("251","Hybrid"),
-    FULL_SERVICE("252","Full_Service");
+    DISCOUNT("250","DISCOUNT"),
+    HYBRID("251","HYBRID"),
+    FULL_SERVICE("252","FULL_SERVICE");
 
     private final String brokerCode;
     private final String brokerType;
