@@ -22,7 +22,7 @@ public class BrokerMapper {
                 .depository(Depository.valueOf(broker.getDepositoryBO().getDepository()))
                 .type(BrokerType.valueOf(broker.getTypeBO().getBrokerType()))
                 .sector(Sector.valueOf(broker.getSectorBO().getSectorName()))
-                .brokerStatus(BrokerStatus.valueOf(broker.getBrokerStatusBO().name()))
+                .brokerStatus(BrokerStatus.valueOf(broker.getBrokerStatusBO().getStatus()))
                 .recordStatus(RecordStatus.valueOf(broker.getRecordStatusBO().getValue()))
                 .build();
     }
@@ -53,7 +53,7 @@ public class BrokerMapper {
         broker.setDepositoryBO(DepositoryBO.valueOf(brokerBO.depository().getDepository()));
         broker.setTypeBO(BrokerTypeBO.valueOf(brokerBO.type().getBrokerType()));
         broker.setSectorBO(SectorBO.valueOf(brokerBO.sector().getSectorName()));
-        broker.setBrokerStatusBO(BrokerStatusBO.valueOf(brokerBO.brokerStatus().name()));
+        broker.setBrokerStatusBO(BrokerStatusBO.valueOf(brokerBO.brokerStatus().getStatus()));
         broker.setRecordStatusBO(RecordStatusBO.valueOf(brokerBO.recordStatus().getValue()));
         return broker;
     }

@@ -1,5 +1,8 @@
 package com.fsm.domainsMapping.constantsBO;
 
+import lombok.Getter;
+
+@Getter
 public enum BrokerStatusBO {
     ACTIVE("100", "ACTIVE"),
     INACTIVE("101", "INACTIVE"),

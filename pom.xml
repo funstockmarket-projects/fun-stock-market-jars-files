@@ -18,12 +18,12 @@
         <module>funmarket-broker</module>
     </modules>
     <properties>
-        <funmarket-sd-mapper>1.0.5</funmarket-sd-mapper>
-        <market-service-domin>1.0.16</market-service-domin>
+        <funmarket-sd-mapper>1.0.6</funmarket-sd-mapper>
+        <market-service-domin>1.0.17</market-service-domin>
         <common-version>1.0.22</common-version>
         <git-reader>1.0.23</git-reader>
         <stock-analysis>1.0.19</stock-analysis>
-        <funmarket-broker>1.0.9</funmarket-broker>
+        <funmarket-broker>1.0.11</funmarket-broker>
     </properties>
 
     <distributionManagement>
