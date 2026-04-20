@@ -6,7 +6,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.21</version>
+        <version>1.0.22</version>
     </parent>
 
     <groupId>org.app.gitReader</groupId>
@@ -60,12 +60,12 @@
         <dependency>
             <groupId>modules</groupId>
             <artifactId>common-modules</artifactId>
-            <version>1.0.22</version>
+            <version>1.0.23</version>
         </dependency>
         <dependency>
             <groupId>org.sd.mapper</groupId>
             <artifactId>funmarket-sd-mapper</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.7</version>
         </dependency>
         <dependency>
             <groupId>com.opencsv</groupId>
