@@ -1,5 +1,6 @@
 package com.fsm.domins.stockDetails.models;
 
+import com.fsm.domainsMapping.constantsBO.RecordStatusBO;
 import com.fsm.domins.globalenums.RecordStatus;
 import com.fsm.domins.globalenums.MarketEvents;
 import org.springframework.data.annotation.Id;
@@ -25,5 +26,8 @@ public record FileMetadata(
         LocalDateTime fileModifiedDate,
         List<Map<String, Object>> fileData,
         RecordStatus recordStatus,
-        String validationStatus) {
+        String validationStatus,
+        String validationMessage,
+        String fileInformationUUID,
+        RecordStatus fileInformationRecordStatus) {
 }

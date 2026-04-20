@@ -23,7 +23,10 @@ public class StockFileDetailsMapper {
                 bo.getFileModifiedDate(),
                 bo.getFileData(),
                 RecordStatus.valueOf(bo.getRecordStatusBO().getValue()),
-                bo.getValidationStatus()
+                bo.getValidationStatus(),
+                bo.getValidationMessage(),
+                bo.getFileInformationUUID(),
+                RecordStatus.valueOf(bo.getFileInformationRecordStatus().getValue())
         );
     }
 
@@ -52,6 +55,9 @@ public class StockFileDetailsMapper {
         bo.setFileData(sfd.fileData());
         bo.setRecordStatusBO(RecordStatusBO.valueOf(sfd.recordStatus().getValue()));
         bo.setValidationStatus(sfd.validationStatus());
+        bo.setValidationMessage(sfd.validationMessage());
+        bo.setFileInformationUUID(sfd.fileInformationUUID());
+        bo.setFileInformationRecordStatus(RecordStatusBO.valueOf(sfd.fileInformationRecordStatus().getValue()));
         return bo;
     }
 }

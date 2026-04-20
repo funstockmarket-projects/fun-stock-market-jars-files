@@ -29,4 +29,7 @@ public class FileMetadataBO {
     private List<Map<String, Object>> fileData;
     private RecordStatusBO recordStatusBO;
     private String validationStatus;
+    private String validationMessage;
+    private String fileInformationUUID;
+    private RecordStatusBO fileInformationRecordStatus;
 }

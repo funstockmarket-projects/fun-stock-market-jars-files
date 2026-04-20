@@ -42,8 +42,22 @@ public class FunMarketModifyFileDetails implements FunMarketStockDetailsOperatio
         }
         prepareObject(existingFileDetails, stockFileDetailsBO);
         FileClearingBO clearingBO = fileValidationService.initiatingFileClearingProcess(existingFileDetails);
-        existingFileDetails.setValidationStatus(clearingBO.getFileValidationStatus());
+        if(clearingBO.getFileClearingUuid() != null){
+            log.info("File clearing process completed with UUID [ {} ] for FileName: [ {} ]", clearingBO.getFileClearingUuid(), stockFileDetailsBO.getFileName());
+            existingFileDetails.setValidationStatus(clearingBO.getFileValidationStatus());
+            existingFileDetails.setValidationMessage(clearingBO.getClearingMessage());
+        }else{
+            existingFileDetails.setValidationStatus(" ");
+            existingFileDetails.setValidationMessage(" ");
+             log.info("File clearing process completed with status [ {} ] for FileName: [ {} ]", clearingBO.getFileValidationStatus(), stockFileDetailsBO.getFileName());
+        }
         FileInformationBO informationBO = fileInformationProcessingEng.processFileInformation(existingFileDetails, clearingBO);
+        if(informationBO.getFileInformationUuid() != null){
+             log.info("File information processing completed with UUID [ {} ] for FileName: [ {} ]", informationBO.getFileInformationUuid(), stockFileDetailsBO.getFileName());
+             existingFileDetails.setFileInformationUUID(informationBO.getFileInformationUuid());
+             existingFileDetails.setFileInformationRecordStatus(informationBO.getRecordStatusBO());
+        }
+
         log.info("File information processed with status [ {} ] for FileName: [ {} ]", informationBO.getFileInformationStatus(), stockFileDetailsBO.getFileName());
         final String fileName = stockFileDetailsBO.getFileName();
         log.info("Clearing successful with status status codes at Time [ {} ], for FileName: [ {} ]", currentTime, fileName);

@@ -73,17 +73,29 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
         buildStockFileDetails(stockFileDetailsBO, currentTime);
         FileClearingBO fileClearing = fileValidationService.initiatingFileClearingProcess(stockFileDetailsBO);
         log.info("File Clearing process completed for the fileName: [ {} ], FileClearing Status: [ {} ], FileClearing code [ {} ], fileClearing Reason [ {} ]", fileName, fileClearing.getClearingCode(),fileClearing.getClearingCode(), fileClearing.getClearingMessage());
-        stockFileDetailsBO.setValidationStatus(fileClearing.getFileValidationStatus());
-        if (stockFileDetailsBO.getFileUUID() != null) {
-            stockFileDetailsBO = saveFileDetails(stockFileDetailsBO);
-            log.info("File Detail Saved successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
-            FileInformationBO informationBO = fileInformationProcessingEng.processFileInformation(stockFileDetailsBO, fileClearing);
+        FileInformationBO informationBO =null;
+        if (fileClearing.getFileClearingUuid() != null) {
+            stockFileDetailsBO.setValidationStatus(fileClearing.getFileValidationStatus());
+            stockFileDetailsBO.setValidationMessage(fileClearing.getClearingMessage());
+            log.info("File Clearing happen successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
+            informationBO = fileInformationProcessingEng.processFileInformation(stockFileDetailsBO, fileClearing);
             log.info("File information processed with status [ {} ] for FileName: [ {} ]", informationBO.getFileInformationStatus(), stockFileDetailsBO.getFileName());
         } else {
-            log.info("Cannot process the File Details, File UUID created Null");
+            log.error("File Clearing happen, unsuccessfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
             throw new FunMarketException("Cannot process the File Details, File UUID created Null");
         }
+        if(informationBO.getFileInformationUuid() != null){
+            log.info("File information saved successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", informationBO.getFileInformationUuid(), fileName, currentTime);
+            stockFileDetailsBO.setFileInformationUUID(informationBO.getFileInformationUuid());
+            stockFileDetailsBO.setFileInformationRecordStatus(informationBO.getRecordStatusBO());
+            stockFileDetailsBO = saveFileDetails(stockFileDetailsBO);
+        }else {
+            log.error("FileInformation happen, unsuccessfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
+            throw new FunMarketException("Cannot process the File Details, File UUID created Null");
+        }
+
         if(isValid(stockFileDetailsBO)){
+            log.error("FileMeta data happen, successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
             return stockFileDetailsBO;
         }else{
             log.info("Final Validation saving fail withe UUID: [ {} ], FileName: [ {} ]. RollBacking the fileMetaData Transaction.",stockFileDetailsBO.getFileUUID(), stockFileDetailsBO.getFileName());
