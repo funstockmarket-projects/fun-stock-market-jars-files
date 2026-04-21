@@ -22,11 +22,12 @@
         <jacoco.destFile>${project.build.directory}/jacoco.exec</jacoco.destFile>
     </properties>
 
+<!--    Have t change the version-->
     <dependencies>
         <dependency>
             <groupId>fun-stock-market.domins</groupId>
             <artifactId>market-service-domin</artifactId>
-            <version>1.0.17</version>
+            <version>1.0.19</version>
         </dependency>
         <dependency>
             <groupId>org.sd.mapper</groupId>

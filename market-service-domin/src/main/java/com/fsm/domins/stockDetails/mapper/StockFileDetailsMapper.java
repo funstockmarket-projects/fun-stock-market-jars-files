@@ -24,9 +24,9 @@ public class StockFileDetailsMapper {
                 bo.getFileData(),
                 RecordStatus.valueOf(bo.getRecordStatusBO().getValue()),
                 bo.getValidationStatus(),
-                bo.getValidationMessage(),
-                bo.getFileInformationUUID(),
-                RecordStatus.valueOf(bo.getFileInformationRecordStatus().getValue())
+                bo.getValidationMessage() != null ? bo.getValidationMessage() : " ",
+                bo.getFileInformationUUID()!= null ? bo.getFileInformationUUID() : " ",
+                RecordStatus.valueOf(bo.getFileInformationRecordStatus().getValue() != null ? bo.getFileInformationRecordStatus().getValue() : RecordStatus.UNKNOWN.getValue())
         );
     }
 
@@ -54,10 +54,10 @@ public class StockFileDetailsMapper {
         bo.setFileModifiedDate(sfd.fileModifiedDate());
         bo.setFileData(sfd.fileData());
         bo.setRecordStatusBO(RecordStatusBO.valueOf(sfd.recordStatus().getValue()));
-        bo.setValidationStatus(sfd.validationStatus());
-        bo.setValidationMessage(sfd.validationMessage());
-        bo.setFileInformationUUID(sfd.fileInformationUUID());
-        bo.setFileInformationRecordStatus(RecordStatusBO.valueOf(sfd.fileInformationRecordStatus().getValue()));
+        bo.setValidationStatus(sfd.validationStatus() != null ? sfd.validationStatus() : " ");
+        bo.setValidationMessage(sfd.validationMessage() != null ? sfd.validationMessage() : " ");
+        bo.setFileInformationUUID(sfd.fileInformationUUID() != null ? sfd.fileInformationUUID() : " ");
+        bo.setFileInformationRecordStatus(RecordStatusBO.valueOf(sfd.fileInformationRecordStatus().getValue()!= null ? sfd.fileInformationRecordStatus().getValue() : RecordStatus.UNKNOWN.getValue()));
         return bo;
     }
 }

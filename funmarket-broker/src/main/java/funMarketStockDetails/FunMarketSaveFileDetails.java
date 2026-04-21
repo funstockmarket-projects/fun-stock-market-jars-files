@@ -95,7 +95,7 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
         }
 
         if(isValid(stockFileDetailsBO)){
-            log.error("FileMeta data happen, successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
+            log.info("FileMeta data happen, successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
             return stockFileDetailsBO;
         }else{
             log.info("Final Validation saving fail withe UUID: [ {} ], FileName: [ {} ]. RollBacking the fileMetaData Transaction.",stockFileDetailsBO.getFileUUID(), stockFileDetailsBO.getFileName());
