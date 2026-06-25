@@ -12,6 +12,7 @@
     <modules>
         <module>funmarket-sd-mapper</module>
         <module>market-service-domin</module>
+        <module>stock-engine-service-domin</module>
         <module>common-modules</module>
         <module>git-reader</module>
         <module>stock-analysis</module>
@@ -20,6 +21,7 @@
     <properties>
         <funmarket-sd-mapper>1.0.7</funmarket-sd-mapper>
         <market-service-domin>1.0.19</market-service-domin>
+        <stock-engine-service-domin>1.0.0</stock-engine-service-domin>
         <common-version>1.0.23</common-version>
         <git-reader>1.0.24</git-reader>
         <stock-analysis>1.0.20</stock-analysis>
