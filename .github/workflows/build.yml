@@ -1,16 +1,13 @@
-name: Build and Install Maven Packages
+name: PR Verification Build
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-  workflow_dispatch:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  build:
+  verify-build:
     runs-on: ubuntu-latest
 
     steps:
