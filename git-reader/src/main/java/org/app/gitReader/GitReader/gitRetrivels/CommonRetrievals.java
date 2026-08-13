@@ -39,7 +39,7 @@ public class CommonRetrievals {
     static private final HttpHeaders headers = new HttpHeaders();
     private static final HttpEntity<String> entity;
     private static String folderName;
-    private static final String token = ApiRetrieve.applicationPropertiesReader("market_gitURI.properties", "marketAnalysis.gitReader.gitToken");
+    private static final String token = ApiRetrieve.applicationPropertiesReader("market_gitURI.properties", "marketAnalysis.gitReader.file.keys");
 
     private final DataRetrieve dataRetrieve;
 
