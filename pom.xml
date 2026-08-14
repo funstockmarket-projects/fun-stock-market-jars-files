@@ -23,7 +23,7 @@
         <market-service-domin>1.0.19</market-service-domin>
         <stock-engine-service-domin>1.0.0</stock-engine-service-domin>
         <common-version>1.0.23</common-version>
-        <git-reader>1.0.26</git-reader>
+        <git-reader>1.0.27</git-reader>
         <stock-analysis>1.0.20</stock-analysis>
         <funmarket-broker>1.0.13</funmarket-broker>
     </properties>

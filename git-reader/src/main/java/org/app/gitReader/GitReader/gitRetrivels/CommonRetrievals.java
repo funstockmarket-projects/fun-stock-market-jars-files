@@ -11,6 +11,7 @@ import com.opencsv.exceptions.CsvException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.app.gitReader.GitReader.apiRetrivels.DataRetrieve;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,19 +38,18 @@ public class CommonRetrievals {
 
     static private final RestTemplate restTemplate = new RestTemplate();
     static private final HttpHeaders headers = new HttpHeaders();
-    private static final HttpEntity<String> entity;
+    private static HttpEntity<String> entity;
     private static String folderName;
-    private static final String token = ApiRetrieve.applicationPropertiesReader("market_gitURI.properties", "marketAnalysis.gitReader.file.keys");
+    @Value("${marketAnalysis.gitReader.file.keys}")
+    private String token;
 
     private final DataRetrieve dataRetrieve;
 
-    static {
+    protected Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames(String uri) {
         log.info("CommonRetrievals Initialized");
         headers.set("Authorization", "token " + token);
         entity = new HttpEntity<>(headers);
-    }
-
-    protected Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames(String uri) {
+        System.out.println(token);
         if (uri == null || uri.isBlank()) {
             throw new SecurityException("Git Uri is null");
         }
@@ -111,7 +111,7 @@ public class CommonRetrievals {
         }
 
         Map<String, FileMetadataBO> fetchCsvDownloadUrlsAndNames = fetchCsvDownloadUrlsAndNames(uri); //fileName, fileDetails
-        if (fetchCsvDownloadUrlsAndNames.isEmpty()) {
+        if (fetchCsvDownloadUrlsAndNames.isEmpty() || fetchCsvDownloadUrlsAndNames == null) {
             log.info("There is not files to be processed. size {}, in this Git Folder: {}", 0, folderName);
             return Map.of();
         }
