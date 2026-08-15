@@ -25,7 +25,7 @@
         <common-version>1.0.23</common-version>
         <git-reader>1.0.27</git-reader>
         <stock-analysis>1.0.20</stock-analysis>
-        <funmarket-broker>1.0.13</funmarket-broker>
+        <funmarket-broker>1.0.14</funmarket-broker>
     </properties>
 
     <distributionManagement>

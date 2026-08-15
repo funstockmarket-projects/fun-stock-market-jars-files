@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 @Service(value="funMarketRemoveFileDetails")
 public class FunMarketRemoveFileDetails implements FunMarketStockDetailsOperations {
@@ -42,13 +43,13 @@ public class FunMarketRemoveFileDetails implements FunMarketStockDetailsOperatio
     }
 
     @Override
-    public FileMetadataBO saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
+    public Response saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
         log.error("Cannot perform save operation hear [ {} ]", FunMarketModifyFileDetails.class);
         throw new FunMarketException("Cannot perform save operation hear [ "+FunMarketRemoveFileDetails.class+" ]. Cannot perform save operation hear.");
     }
 
     @Override
-    public FileMetadataBO modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO FileMetadataBO) throws FunMarketException {
+    public Response  modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO FileMetadataBO) throws FunMarketException {
         log.error("Cannot perform modification operation hear [ {} ]", FunMarketModifyFileDetails.class);
         throw new FunMarketException("Cannot perform remove operation hear [ "+FunMarketRemoveFileDetails.class+" ]. Cannot perform modification operation hear.");
     }
