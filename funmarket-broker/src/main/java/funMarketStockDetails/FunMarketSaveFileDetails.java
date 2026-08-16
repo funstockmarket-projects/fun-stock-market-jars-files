@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 import static FunMarketUtils.Utils.currentTime;
@@ -46,7 +47,7 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
 
     @Override
     @Transactional
-    public FileMetadataBO saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
+    public Response saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
 
         if (stockFileDetailsBO == null) {
             log.info("Input object cannot be null input Object: [ {} ]", FileMetadataBO.class.getSimpleName());
@@ -60,10 +61,10 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
         if (existingDetails != null && existingDetails.getFileUUID() != null) {
             log.info("File details found, with FileName: [ {} ] Instating fileModification Time [ {} ]", fileName, currentTime);
             stockFileDetailsBO.setRecordStatusBO(RecordStatusBO.MODIFIED);
-            stockFileDetailsBO = fileModification(existingDetails, stockFileDetailsBO);
-            stockFileDetailsBO = saveFileDetails(stockFileDetailsBO); //saving file information
+            Response response = fileModification(existingDetails, stockFileDetailsBO);
+            stockFileDetailsBO = saveFileDetails((FileMetadataBO)response.getData()); //saving file information
             if(isValid(stockFileDetailsBO)){
-                return stockFileDetailsBO;
+                return new Response(stockFileDetailsBO, response.getProcessingCounts());
             }else{
                 log.info("Final Validation modification fail withe UUID: [ {} ], FileName: [ {} ]. RollBacking the fileMetaData Transaction.",stockFileDetailsBO.getFileUUID(), stockFileDetailsBO.getFileName());
                 throw new FunMarketException("Saved invalid details. RollBacking the file metadata");
@@ -96,14 +97,14 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
 
         if(isValid(stockFileDetailsBO)){
             log.info("FileMeta data happen, successfully with UUID: [ {} ], FileName: [ {} ], Time: [ {} ]", stockFileDetailsBO.getFileUUID(), fileName, currentTime);
-            return stockFileDetailsBO;
+            return new Response(stockFileDetailsBO, informationBO.getFileProcessingNumberOfCount());
         }else{
             log.info("Final Validation saving fail withe UUID: [ {} ], FileName: [ {} ]. RollBacking the fileMetaData Transaction.",stockFileDetailsBO.getFileUUID(), stockFileDetailsBO.getFileName());
             throw new FunMarketException("Saved invalid details. RollBacking the file metadata");
         }
     }
 
-    private FileMetadataBO fileModification(FileMetadataBO existingDetails, FileMetadataBO stockFileDetailsBO) {
+    private Response  fileModification(FileMetadataBO existingDetails, FileMetadataBO stockFileDetailsBO) {
         log.info("File details send to modification time: [ {} ]", currentTime());
         return funMarketModifyFileDetails.modifyStockFileDetails(existingDetails, stockFileDetailsBO);
     }
@@ -129,7 +130,7 @@ public class FunMarketSaveFileDetails implements FunMarketStockDetailsOperations
 
 
     @Override
-    public FileMetadataBO modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO FileMetadataBO) throws FunMarketException {
+    public Response  modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO FileMetadataBO) throws FunMarketException {
         log.info("Cannot Do file modification directly.. [ {} ]", FunMarketSaveFileDetails.class);
         throw new FunMarketException("Cannot Do file modification directly.. [ " + FunMarketSaveFileDetails.class + " ]. Modification fail");
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Map;
 
 @Service(value = "funMarketModifyFileDetails")
 public class FunMarketModifyFileDetails implements FunMarketStockDetailsOperations {
@@ -33,7 +34,7 @@ public class FunMarketModifyFileDetails implements FunMarketStockDetailsOperatio
     }
 
     @Override
-    public FileMetadataBO modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO stockFileDetailsBO) {
+    public Response modifyStockFileDetails(FileMetadataBO existingFileDetails, FileMetadataBO stockFileDetailsBO) {
         log.error("Performing file modification");
         final LocalDateTime currentTime = currentTime();
         if (stockFileDetailsBO == null || existingFileDetails == null) {
@@ -61,7 +62,7 @@ public class FunMarketModifyFileDetails implements FunMarketStockDetailsOperatio
         log.info("File information processed with status [ {} ] for FileName: [ {} ]", informationBO.getFileInformationStatus(), stockFileDetailsBO.getFileName());
         final String fileName = stockFileDetailsBO.getFileName();
         log.info("Clearing successful with status status codes at Time [ {} ], for FileName: [ {} ]", currentTime, fileName);
-        return existingFileDetails;
+        return new Response(existingFileDetails, informationBO.getFileProcessingNumberOfCount());
     }
 
     private void prepareObject(FileMetadataBO existingFileDetails, FileMetadataBO stockFileDetailsBO) {
@@ -83,7 +84,7 @@ public class FunMarketModifyFileDetails implements FunMarketStockDetailsOperatio
     }
 
     @Override
-    public FileMetadataBO saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
+    public Response saveStockFileDetails(FileMetadataBO stockFileDetailsBO) throws FunMarketException {
         log.error("Cannot perform save operation hear [ {} ]", FunMarketModifyFileDetails.class);
         throw new FunMarketException("Cannot perform save operation hear [ " + FunMarketModifyFileDetails.class + " ]. Cannot perform save operation hear.");
     }
