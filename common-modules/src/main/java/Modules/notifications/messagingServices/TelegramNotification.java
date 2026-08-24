@@ -3,6 +3,7 @@ package Modules.notifications.messagingServices;
 import Modules.notifications.DTO.MessagePayload;
 import Modules.notifications.DTO.NotificationType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,10 +11,10 @@ import java.rmi.ServerException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service(value = "telegramNotification")
+@Component(value = "telegramNotification")
 public class TelegramNotification implements NotificationService {
 
-    @Value("${telegram.token}")
+    @Value("${fsm.telegram.notification.token}")
     private String token;
     private final RestTemplate restTemplate;
 

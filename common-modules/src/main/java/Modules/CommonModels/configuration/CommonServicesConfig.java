@@ -37,13 +37,6 @@ public class CommonServicesConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(mailHost);
         mailSender.setPort(mailPort);
-        mailSender.setProtocol("smtp");
-
-        // Ensure we have a from address; prefer explicit mail.from, fallback to username
-        if ((mailFrom == null || mailFrom.isBlank()) && mailUsername != null && !mailUsername.isBlank()) {
-            mailFrom = mailUsername;
-        }
-
         if (mailUsername != null && !mailUsername.isBlank()) {
             mailSender.setUsername(mailUsername);
         }
@@ -57,24 +50,18 @@ public class CommonServicesConfig {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.starttls.required", "true");
-        props.put("mail.mime.charset", "UTF-8");
         props.put("mail.smtp.connectiontimeout", "5000");
         props.put("mail.smtp.timeout", "5000");
         props.put("mail.smtp.ssl.trust", mailHost);
 
-        // Set the SMTP envelope from to control Return-Path; helps DMARC/SPF alignment
         if (mailFrom != null && !mailFrom.isBlank()) {
             props.put("mail.smtp.from", mailFrom);
         }
 
-        // For implicit SSL port, enable ssl and disable STARTTLS
         if (mailPort == 465) {
             props.put("mail.smtp.ssl.enable", "true");
             props.put("mail.smtp.starttls.enable", "false");
         }
-
-        // Optional: enable debug via property (disabled by default)
-        // props.put("mail.debug", "true");
 
         return mailSender;
     }
