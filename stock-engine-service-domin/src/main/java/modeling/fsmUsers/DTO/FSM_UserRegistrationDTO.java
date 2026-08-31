@@ -11,7 +11,7 @@ import modeling.fsmUsers.constants.UserType;
 public class FSM_UserRegistrationDTO {
 
     @NotBlank(message = "UserName is required")
-    @Size(min = 4, max = 10, message = "Username must be between 4 and 10 characters")
+    @Size(min = 4, max = 20, message = "Username must be between 4 and 20 characters")
     private String userName;
     @NotBlank(message = "Email is required")
     @Email(message = "Please provide a valid email address")

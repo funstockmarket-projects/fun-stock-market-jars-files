@@ -76,14 +76,14 @@ public class EmailNotification implements NotificationService {
             mimeMessageHelper.setSubject(subject);
 
             // 5. Handle Content (Multipart HTML + Clean Plain-Text fallback)
-            String rawBody = payload.getNotificationBody() != null ? payload.getNotificationBody() : "";
+            String rawBody = payload.getNotificationBody() != null ? payload.getNotificationBody() : buildHtmlTemplate(subject, "Invalid Date");
 
             if (payload.isHTML()) {
-                String htmlWrapper = buildHtmlTemplate(subject, rawBody);
+
                 String plainTextFallback = stripHtmlToPlainText(rawBody);
 
                 // Both parameters passed: Plain text fallback prevents Gmail spam flags
-                mimeMessageHelper.setText(plainTextFallback, htmlWrapper);
+                mimeMessageHelper.setText(plainTextFallback, rawBody);
             } else {
                 mimeMessageHelper.setText(rawBody, false);
             }
