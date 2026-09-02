@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import modeling.FsmHoldings.constants.TypeOfHoldingsAccount;
 import modeling.fsmUsers.userEntity.FSM_Users;
-import modeling.globalEnums.AccountStatus;
+import modeling.globalEnums.PerformanceStatus;
 import modeling.globalEnums.RecordStatus;
 
 import java.math.BigDecimal;
@@ -37,7 +37,7 @@ public class UserHoldings {
     private LocalDateTime holdingsOpeningDateAndTime;
     @Column(name = "holdingsActiveStatusCode", nullable = false)
     @Enumerated(EnumType.STRING)
-    private AccountStatus accountStatus;
+    private PerformanceStatus accountStatus;
     @Column(name = "recordCreatedOrModifiedDateTime",nullable = false)
     private LocalDateTime recordCreatedOrModifiedDateTime;
     @Column(name = "recordStatus", nullable = false)
