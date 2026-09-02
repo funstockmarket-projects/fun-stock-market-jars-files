@@ -2,7 +2,7 @@ package Modules.CommonModels.exceptions;
 
 public class FunMarketException extends RuntimeException{
 
-    FunMarketException(String message){
+    public FunMarketException(String message){
         super(message);
     }
 }
