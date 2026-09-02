@@ -1,12 +1,12 @@
-package modeling.fsmBuckets.constants;
+package modeling.globalEnums;
 
 import lombok.Getter;
 
 @Getter
 public enum ProcessingStatus {
-    INPOGRESS("inProgress"),
-    APPROVED("approved"),
-    REJECTED("rejected");
+    INPOGRESS("INPROGRESS"),
+    APPROVED("APPROVED"),
+    REJECTED("REJECTED");
 
     private final String processingStatus;
 

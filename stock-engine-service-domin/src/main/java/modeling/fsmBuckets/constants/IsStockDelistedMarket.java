@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum IsStockDelistedMarket {
-    LISTED("listed"),
-    DLISTED("dlisted"),
-    SUSPENDED("suspended");
+    LISTED("LISTED"),
+    DLISTED("DLISTED"),
+    SUSPENDED("SUSPENDED");
 
     private final String isStockDelistedMarket;
 

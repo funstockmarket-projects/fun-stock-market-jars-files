@@ -3,6 +3,10 @@ package modeling.fsmBuckets.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import modeling.fsmBuckets.constants.*;
+import modeling.globalEnums.IsStockFoundInMarket;
+import modeling.globalEnums.PerformanceStatus;
+import modeling.globalEnums.ProcessingStatus;
+import modeling.globalEnums.RecordStatus;
 
 import java.time.LocalDateTime;
 
@@ -40,23 +44,29 @@ public class FSM_StockDetailsBucket {
     @Column(name="FSMstockProcessedDay")
     private String fsmStockProcessDay;
     @Column(name="stockTreadingStartTime",nullable = false)
-    private LocalDateTime stockThreadingStartTime;
+    private LocalDateTime stockTradingStartTime;
     @Column(name="stockTreadingEndTime",nullable = false)
     private LocalDateTime stockThreadingEndTime;
     @Column(name="capType",nullable = false,length = 10)
     @Enumerated(EnumType.STRING)
     private CapType capType=CapType.SMALL;
     @Column(name="processingStatus",nullable = false,length=15)
+    @Enumerated(EnumType.STRING)
     private ProcessingStatus processingStatus=ProcessingStatus.INPOGRESS;
     @Column(name="isStockDelistedMarket",nullable = false,length=15)
+    @Enumerated(EnumType.STRING)
     private IsStockDelistedMarket isStockDelistedInMarket=IsStockDelistedMarket.LISTED;
     @Column(name="stockStatusInFSM",nullable = false,length=15)
-    private StockStatusInFSM stockStatusInFSM=StockStatusInFSM.INACTIVE;
+    @Enumerated(EnumType.STRING)
+    private PerformanceStatus stockStatusInFSM= PerformanceStatus.INACTIVE;
     @Column(name="treadingStatus",nullable = false,length=15)
-    private TreadingStatus treadingStatus=TreadingStatus.INACTIVE;
+    @Enumerated(EnumType.STRING)
+    private PerformanceStatus treadingStatus= PerformanceStatus.INACTIVE;
     @Column(name="recordCreationOrModifiedDateTime",nullable = false)
+    @Enumerated(EnumType.STRING)
     private LocalDateTime recordUpdatedDatetime;
     @Column(name="recordStatus",nullable = false,length=10)
+    @Enumerated(EnumType.STRING)
     private RecordStatus recordStatus=RecordStatus.ADDED;
 
 }

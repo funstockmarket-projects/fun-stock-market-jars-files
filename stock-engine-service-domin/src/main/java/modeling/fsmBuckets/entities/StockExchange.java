@@ -2,8 +2,8 @@ package modeling.fsmBuckets.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import modeling.fsmBuckets.constants.ExchangeStatus;
-import modeling.fsmBuckets.constants.RecordStatus;
+import modeling.globalEnums.PerformanceStatus;
+import modeling.globalEnums.RecordStatus;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +21,7 @@ public class StockExchange {
     private String exchangeName;
     @Column(name="exchangeStatus",nullable = false,length = 20)
     @Enumerated(EnumType.STRING)
-    private ExchangeStatus exchangeStatus=ExchangeStatus.ACTIVE;
+    private PerformanceStatus exchangeStatus= PerformanceStatus.ACTIVE;
     @Column(name="recordStatus",nullable = false,length = 10)
     @Enumerated(EnumType.STRING)
     private RecordStatus recordStatus=RecordStatus.ADDED;

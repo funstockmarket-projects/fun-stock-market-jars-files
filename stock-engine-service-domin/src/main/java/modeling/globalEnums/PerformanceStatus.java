@@ -3,7 +3,7 @@ package modeling.globalEnums;
 import lombok.Getter;
 
 @Getter
-public enum AccountStatus {
+public enum PerformanceStatus {
     ACTIVE("ACTIVE", "111"),
     INACTIVE("INACTIVE", "11"),
     BLOCKED("BLOCKED", "0000"),
@@ -12,7 +12,7 @@ public enum AccountStatus {
     private final String status;
     private final String code;
 
-    AccountStatus(String active, String number) {
+    PerformanceStatus(String active, String number) {
         status =active;
         code = number;
     }

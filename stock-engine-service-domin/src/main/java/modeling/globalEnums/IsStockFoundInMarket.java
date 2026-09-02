@@ -1,11 +1,11 @@
-package modeling.fsmBuckets.constants;
+package modeling.globalEnums;
 
 import lombok.Getter;
 
 @Getter
 public enum IsStockFoundInMarket {
-    N('n'),
-    Y('y');
+    N('N'),
+    Y('Y');
 
     private final Character isStockFoundInMarket;
 

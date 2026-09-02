@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum CapType {
-    SMALL("small"),
-    LARGE("large"),
-    MID("mid");
+    SMALL("SMALL"),
+    LARGE("LARGE"),
+    MID("MID");
 
     private final String capType;
 
