@@ -7,9 +7,11 @@ import modeling.FsmHoldings.constants.TypeOfHoldingsAccount;
 import modeling.fsmUsers.userEntity.FSM_Users;
 import modeling.globalEnums.PerformanceStatus;
 import modeling.globalEnums.RecordStatus;
+import modeling.globalEnums.YesOrNoStatusFlag;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,11 +20,11 @@ import java.time.LocalDateTime;
 public class UserHoldings {
 
     @Id
-    @Column(name = "holdings_userId", nullable = false, updatable = false, insertable = false)
-    private long id;
-    @Column(name = "holdings_UUID", nullable = false, updatable = false, insertable = false)
-    private String holdingUUID;
-    @Column(name= "userName",nullable = false, updatable = false, insertable = false)
+    @Column(name = "holdings_userId", nullable = false)
+    private Long id;
+    @Column(name = "holdings_UUID", nullable = false)
+    private UUID holdingUUID;
+    @Column(name= "userName",nullable = false)
     private String userName;
     @Column(name = "typeOfHoldingsAccount", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -31,6 +33,11 @@ public class UserHoldings {
     private int totalStockHoldings;
     @Column(name = "currentValue", nullable = false)
     private BigDecimal currentValue;
+    @Column(name = "stockSymbol", nullable = false)
+    private String stockSymbol;
+    @Column(name="stockTradingStatus", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private YesOrNoStatusFlag stockTradingStatus;
     @Column(name = "totalInvestment", nullable = false)
     private BigDecimal totalInvestment;
     @Column(name = "holdingsOpeningDateAndTime", nullable = false)
@@ -43,7 +50,7 @@ public class UserHoldings {
     @Column(name = "recordStatus", nullable = false)
     @Enumerated(EnumType.STRING)
     private RecordStatus recordStatus;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "holdings_userId", referencedColumnName = "userId",  insertable = false, updatable = false)
     private FSM_Users users;
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ProcessingStatus {
-    INPOGRESS("INPROGRESS"),
+    INPROGRESS("INPROGRESS"),
     APPROVED("APPROVED"),
     REJECTED("REJECTED");
 

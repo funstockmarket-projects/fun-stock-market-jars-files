@@ -1,4 +1,4 @@
-package modeling.fsmBuckets.constants;
+package modeling.globalEnums;
 
 import lombok.Getter;
 

@@ -1,16 +1,16 @@
-package modeling.fsmBuckets.constants;
+package modeling.globalEnums;
 
 import lombok.Getter;
 
 @Getter
-public enum IsStockDelistedMarket {
+public enum StockStatusInMarket {
     LISTED("LISTED"),
     DLISTED("DLISTED"),
     SUSPENDED("SUSPENDED");
 
     private final String isStockDelistedMarket;
 
-    IsStockDelistedMarket(String isStockDelistedMarket) {
+    StockStatusInMarket(String isStockDelistedMarket) {
         this.isStockDelistedMarket = isStockDelistedMarket;
     }
 }
