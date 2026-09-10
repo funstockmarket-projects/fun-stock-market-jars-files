@@ -1,7 +1,9 @@
 package modeling.fsmUsers.DTO;
 
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import modeling.fsmUsers.constants.AccountType;
 import modeling.fsmUsers.constants.UserActiveStatusCode;
 import modeling.fsmUsers.constants.UserStatus;
@@ -10,6 +12,9 @@ import modeling.fsmUsers.constants.UserType;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor 
+@NoArgsConstructor 
 public class FSM_UserDetailsDTO {
 
     private long id;

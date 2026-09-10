@@ -6,8 +6,6 @@ import modeling.fsmUsers.constants.UserActiveStatusCode;
 import modeling.fsmUsers.constants.UserStatus;
 import modeling.fsmUsers.constants.UserType;
 
-import java.time.LocalDateTime;
-
 @Data
 public class AdminModifyFSM_UsesDTO {
     private long userId;
