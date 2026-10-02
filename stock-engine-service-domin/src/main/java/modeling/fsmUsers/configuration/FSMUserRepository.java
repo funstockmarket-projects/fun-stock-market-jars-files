@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-interface FSMUserRepository extends JpaRepository<FSM_Users, Long> {
+public interface FSMUserRepository extends JpaRepository<FSM_Users, Long> {
 
     Optional<FSM_Users> findByUserName(String userName);
     Optional<FSM_Users> findById(long id);

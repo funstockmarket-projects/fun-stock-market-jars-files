@@ -8,6 +8,14 @@ import modeling.FsmHoldings.DTO.HoldingsDTO;
 import modeling.FsmHoldings.enitity.UserHoldings;
 import modeling.FsmStockExchange.DTO.StockExchangeDTO;
 import modeling.FsmStockExchange.entity.StockExchange;
+import modeling.dailyStockTradingBucket.DTO.DailyStockTriggeringDTO;
+import modeling.dailyStockTradingBucket.DTO.FsmStocksBucketDTO;
+import modeling.dailyStockTradingBucket.DTO.TrackStockPriceActionDTO;
+import modeling.dailyStockTradingBucket.entities.DailyStockTriggering;
+import modeling.dailyStockTradingBucket.entities.FsmStocksBucket;
+import modeling.dailyStockTradingBucket.entities.TrackStockPriceAction;
+import modeling.fsmBuckets.DTO.FSM_StockDetailsBucketDTO;
+import modeling.fsmBuckets.entities.FSM_StockDetailsBucket;
 import modeling.fsmUsers.DTO.FSM_UserDetailsDTO;
 import modeling.fsmUsers.userEntity.FSM_Users;
 import modeling.trade.DTO.ClearingDTO;
@@ -177,16 +185,17 @@ public class DomainMapping {
         if (dto == null) {
             return null;
         }
-
+// 
         TradeOrder entity = new TradeOrder();
         entity.setOrderId(dto.getOrderId());
+        entity.setOrginalTradeOrderUUID(dto.getOrginalTradeOrderUUID());
         entity.setOrderUuid(dto.getOrderUuid());
         entity.setUserId(dto.getUserId());
         entity.setStockBucketIdInFsm(dto.getStockBucketIdInFsm());
         entity.setStockSymbol(dto.getStockSymbol());
         entity.setQuantity(dto.getQuantity() != null ? dto.getQuantity() : 0L);
         entity.setTradeAt(dto.getTradeAt());
-        entity.setBrokerName(dto.getBrokerName());
+        entity.setBrokerId(dto.getBrokerId());
         entity.setOrderWindow(dto.getOrderWindow());
         entity.setTradeOrderType(dto.getTradeOrderType());
         entity.setTradeClearingProcessDone(dto.getTradeClearingProcessDone());
@@ -199,8 +208,23 @@ public class DomainMapping {
         entity.setStockApprovedStatusInFsm(dto.getStockApprovedStatusInFsm());
         entity.setFsmStockDescription(dto.getFsmStockDescription());
         entity.setRecordStatus(dto.getRecordStatus());
-        entity.setExchangeName(dto.getExchangeName());
+        entity.setExchangeId(dto.getExchangeId());
+        entity.setClearingBusinessDate(dto.getClearingBusinessDate());
+        if(dto.getClearingTradeOrderDTO() != null) {
 
+            entity.setClearingTradeOrder(
+                dto.getClearingTradeOrderDTO()
+                .stream()
+                .map(i->{
+                    ClearingTradeOrder clearingTradeOrder =  toEntity(i);
+                    clearingTradeOrder.setTradeOrder(entity);
+                    return clearingTradeOrder;
+                })
+                .toList()
+            );
+        }else{
+            throw new NullPointerException("Cannot map the clearing.. class mapping");
+        }
         return entity;
     }
 
@@ -210,14 +234,16 @@ public class DomainMapping {
         }
 
         TradeOrderDTO dto = new TradeOrderDTO();
+        dto.setClearingBusinessDate(entity.getClearingBusinessDate());
         dto.setOrderId(entity.getOrderId());
+        dto.setOrginalTradeOrderUUID(entity.getOrginalTradeOrderUUID());
         dto.setOrderUuid(entity.getOrderUuid());
         dto.setUserId(entity.getUserId());
         dto.setStockBucketIdInFsm(entity.getStockBucketIdInFsm());
         dto.setStockSymbol(entity.getStockSymbol());
         dto.setQuantity(entity.getQuantity());
         dto.setTradeAt(entity.getTradeAt());
-        dto.setBrokerName(entity.getBrokerName());
+        dto.setBrokerId(entity.getBrokerId());
         dto.setOrderWindow(entity.getOrderWindow());
         dto.setTradeOrderType(entity.getTradeOrderType());
         dto.setTradeClearingProcessDone(entity.getTradeClearingProcessDone());
@@ -231,19 +257,25 @@ public class DomainMapping {
         dto.setFsmStockDescription(entity.getFsmStockDescription());
         dto.setRecordStatus(entity.getRecordStatus());
         dto.setRecordCreatedOrModifiedDateTime(entity.getRecordCreatedOrModifiedDateTime());
-        dto.setExchangeName(entity.getExchangeName());
+        dto.setExchangeId(entity.getExchangeId());
 
         if(entity.getFsmUsers() != null) {
-            dto.setFsmUsers(userMapping(entity.getFsmUsers()));
+            dto.setFsmUsersDTO(userMapping(entity.getFsmUsers()));
         }
         if(entity.getStockExchange() != null) {
-            dto.setStockExchange(stockExchangeMapping(entity.getStockExchange()));
+            dto.setStockExchangeDTO(stockExchangeMapping(entity.getStockExchange()));
         }
         if(entity.getBroker() != null) {
             dto.setStockBrokerDTO(brokerMapping(entity.getBroker()));
         }
         if(entity.getClearingTradeOrder() != null) {
-            dto.setClearingTradeOrder(toDto(entity.getClearingTradeOrder()));
+            dto.setClearingTradeOrderDTO(
+                
+                entity.getClearingTradeOrder()
+                .stream()
+                .map(n->toDto(n))
+                .toList()
+            );
         }
 
         return dto;
@@ -251,7 +283,7 @@ public class DomainMapping {
 
     public static ClearingTradeOrder toEntity(ClearingDTO dto) {
         if (dto == null) {
-            return null;
+            throw new NullPointerException("Cannot be null dto class mapping->toentity");
         }
 
         ClearingTradeOrder entity = new ClearingTradeOrder();
@@ -282,5 +314,182 @@ public class DomainMapping {
         dto.setRecordCreatedOrModifiedDateTime(entity.getRecordCreatedOrModifiedDateTime());
 
         return dto;
+    }
+
+    public static FSM_StockDetailsBucketDTO stockDetailsBucketMapping(FSM_StockDetailsBucket entity) {
+        if (entity == null) {
+            return null;
+        }
+        return FSM_StockDetailsBucketDTO.builder()
+                .bucketId(entity.getBucketId())
+                .bucketUuid(entity.getBucketUuid())
+                .stockSymbol(entity.getStockSymbol())
+                .stockName(entity.getStockName())
+                .exchangeName(entity.getExchangeName())
+                .fsmStockIdentification(entity.getFsmStockIdentification())
+                .stockAddedThroughUserId(entity.getStockAddedThroughUserId())
+                .stockRegisterWithTradeOrderId(entity.getStockRegisterWithTradeOrderId())
+                .isStockFoundInGlobalMarket(entity.getIsStockFoundInGlobalMarket())
+                .listedDateInFsm(entity.getListedDateInFsm())
+                .listedDayInFsm(entity.getListedDayInFsm())
+                .fsmStockProcessedDateTime(entity.getFsmStockProcessedDateTime())
+                .fsmStockProcessedDay(entity.getFsmStockProcessedDay())
+                .stockTradingStartTime(entity.getStockTradingStartTime())
+                .stockTradingEndTime(entity.getStockTradingEndTime())
+                .capType(entity.getCapType())
+                .processingStatus(entity.getProcessingStatus())
+                .isStockStatusInMarket(entity.getIsStockStatusInMarket())
+                .stockStatusInFsm(entity.getStockStatusInFsm())
+                .isStockDelistedMarket(entity.getIsStockDelistedMarket())
+                .tradingStatus(entity.getTradingStatus())
+                .stockDetailsAvalibilityFromBroker(entity.getStockDetailsAvalibilityFromBroker())
+                .stockApprovalStatus(entity.getStockApprovalStatus())
+                .stockApprovedByAdminId(entity.getStockApprovedByAdminId())
+                .stockApprovedDateTime(entity.getStockApprovedDateTime())
+                .stockRejectedByAdminId(entity.getStockRejectedByAdminId())
+                .stockRejectedDateTime(entity.getStockRejectedDateTime())
+                .stockRejectionReason(entity.getStockRejectionReason())
+                .recordCreationOrModifiedDateTime(entity.getRecordCreationOrModifiedDateTime())
+                .recordStatus(entity.getRecordStatus())
+                .fsmUsers(entity.getFsmUsers() != null ? userMapping(entity.getFsmUsers()) : null)
+                .tradeOrder(entity.getTradeOrder() != null ? toDto(entity.getTradeOrder()) : null)
+                .stockExchange(entity.getStockExchange() != null ? stockExchangeMapping(entity.getStockExchange()) : null)
+                .build();
+    }
+
+    public static FSM_StockDetailsBucket stockDetailsBucketMapping(FSM_StockDetailsBucketDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        FSM_StockDetailsBucket entity = new FSM_StockDetailsBucket();
+        entity.setBucketId(dto.getBucketId());
+        entity.setBucketUuid(dto.getBucketUuid());
+        entity.setStockSymbol(dto.getStockSymbol());
+        entity.setStockName(dto.getStockName());
+        entity.setExchangeName(dto.getExchangeName());
+        entity.setStockAddedThroughUserId(dto.getStockAddedThroughUserId());
+        entity.setStockRegisterWithTradeOrderId(dto.getStockRegisterWithTradeOrderId());
+        entity.setIsStockFoundInGlobalMarket(dto.getIsStockFoundInGlobalMarket());
+        entity.setListedDateInFsm(dto.getListedDateInFsm());
+        entity.setListedDayInFsm(dto.getListedDayInFsm());
+        entity.setStockTradingStartTime(dto.getStockTradingStartTime());
+        entity.setStockTradingEndTime(dto.getStockTradingEndTime());
+        entity.setCapType(dto.getCapType());
+        entity.setProcessingStatus(dto.getProcessingStatus());
+        entity.setIsStockStatusInMarket(dto.getIsStockStatusInMarket());
+        entity.setStockStatusInFsm(dto.getStockStatusInFsm());
+        entity.setIsStockDelistedMarket(dto.getIsStockDelistedMarket());
+        entity.setTradingStatus(dto.getTradingStatus());
+        entity.setStockDetailsAvalibilityFromBroker(dto.getStockDetailsAvalibilityFromBroker());
+        entity.setStockApprovalStatus(dto.getStockApprovalStatus());
+        entity.setStockApprovedByAdminId(dto.getStockApprovedByAdminId());
+        entity.setStockApprovedDateTime(dto.getStockApprovedDateTime());
+        entity.setStockRejectedByAdminId(dto.getStockRejectedByAdminId());
+        entity.setStockRejectedDateTime(dto.getStockRejectedDateTime());
+        entity.setStockRejectionReason(dto.getStockRejectionReason());
+        return entity;
+    }
+
+    public static FsmStocksBucketDTO fsmStocksBucketMapping(FsmStocksBucket e) {
+        if (e == null) return null;
+        return FsmStocksBucketDTO.builder()
+                .stockUuid(e.getStockUuid())
+                .stockId(e.getStockId())
+                .stockSymbol(e.getStockSymbol())
+                .exchangeName(e.getExchangeName())
+                .stockStatus(e.getStockStatus())
+                .stockTreadingStartTime(e.getStockTreadingStartTime())
+                .stockTreadingEndTime(e.getStockTreadingEndTime())
+                .currentTradedDate(e.getCurrentTradedDate())
+                .currentTradedDay(e.getCurrentTradedDay())
+                .lastTradedDate(e.getLastTradedDate())
+                .lastTradedDay(e.getLastTradedDay())
+                .lastTreadingDayPriceStatus(e.getLastTreadingDayPriceStatus())
+                .currentTreadinfDayPriceStatus(e.getCurrentTreadinfDayPriceStatus())
+                .recordStatus(e.getRecordStatus())
+                .recordCreatedOrModifiedDateTime(e.getRecordCreatedOrModifiedDateTime())
+                .stockDetailsBucket(e.getStockDetailsBucket() != null ? stockDetailsBucketMapping(e.getStockDetailsBucket()) : null)
+                .stockExchange(e.getStockExchange() != null ? stockExchangeMapping(e.getStockExchange()) : null)
+                .build();
+    }
+
+    public static FsmStocksBucket fsmStocksBucketMapping(FsmStocksBucketDTO d) {
+        if (d == null) return null;
+        FsmStocksBucket e = new FsmStocksBucket();
+        e.setStockUuid(d.getStockUuid());
+        e.setStockId(d.getStockId());
+        e.setStockSymbol(d.getStockSymbol());
+        e.setExchangeName(d.getExchangeName());
+        e.setStockStatus(d.getStockStatus());
+        e.setStockTreadingStartTime(d.getStockTreadingStartTime());
+        e.setStockTreadingEndTime(d.getStockTreadingEndTime());
+        e.setCurrentTradedDate(d.getCurrentTradedDate());
+        e.setCurrentTradedDay(d.getCurrentTradedDay());
+        e.setLastTradedDate(d.getLastTradedDate());
+        e.setLastTradedDay(d.getLastTradedDay());
+        e.setLastTreadingDayPriceStatus(d.getLastTreadingDayPriceStatus());
+        e.setCurrentTreadinfDayPriceStatus(d.getCurrentTreadinfDayPriceStatus());
+        e.setRecordStatus(d.getRecordStatus());
+        return e;
+    }
+
+    public static DailyStockTriggeringDTO dailyStockTriggeringMapping(DailyStockTriggering e) {
+        if (e == null) return null;
+        return DailyStockTriggeringDTO.builder()
+                .stockPriceUpdatedUUID(e.getStockPriceUpdatedUUID())
+                .stockId(e.getStockId())
+                .stockSymbol(e.getStockSymbol())
+                .stockExchange(e.getStockExchange())
+                .stockTreadingStartTime(e.getStockTreadingStartTime())
+                .stockTreadingEndTime(e.getStockTreadingEndTime())
+                .fsmStocksBucket(e.getFsmStocksBucket() != null ? fsmStocksBucketMapping(e.getFsmStocksBucket()) : null)
+                .build();
+    }
+
+    public static DailyStockTriggering dailyStockTriggeringMapping(DailyStockTriggeringDTO d) {
+        if (d == null) return null;
+        DailyStockTriggering e = new DailyStockTriggering();
+        e.setStockPriceUpdatedUUID(d.getStockPriceUpdatedUUID());
+        e.setStockId(d.getStockId());
+        e.setStockSymbol(d.getStockSymbol());
+        e.setStockExchange(d.getStockExchange());
+        e.setStockTreadingStartTime(d.getStockTreadingStartTime());
+        e.setStockTreadingEndTime(d.getStockTreadingEndTime());
+        return e;
+    }
+
+    public static TrackStockPriceActionDTO trackStockPriceActionMapping(TrackStockPriceAction e) {
+        if (e == null) return null;
+        return TrackStockPriceActionDTO.builder()
+                .stockPriceActionUUID(e.getStockPriceActionUUID())
+                .priceActionID(e.getPriceActionID())
+                .stockId(e.getStockId())
+                .stockName(e.getStockName())
+                .currentPrice(e.getCurrentPrice())
+                .openingPrice(e.getOpeningPrice())
+                .closingPrice(e.getClosingPrice())
+                .tradingDate(e.getTradingDate())
+                .tradingDay(e.getTradingDay())
+                .updatedDateTime(e.getUpdatedDateTime())
+                .updateDay(e.getUpdateDay())
+                .fsmStocksBucket(e.getFsmStocksBucket() != null ? fsmStocksBucketMapping(e.getFsmStocksBucket()) : null)
+                .build();
+    }
+
+    public static TrackStockPriceAction trackStockPriceActionMapping(TrackStockPriceActionDTO d) {
+        if (d == null) return null;
+        TrackStockPriceAction e = new TrackStockPriceAction();
+        e.setStockPriceActionUUID(d.getStockPriceActionUUID());
+        e.setPriceActionID(d.getPriceActionID());
+        e.setStockId(d.getStockId());
+        e.setStockName(d.getStockName());
+        e.setCurrentPrice(d.getCurrentPrice());
+        e.setOpeningPrice(d.getOpeningPrice());
+        e.setClosingPrice(d.getClosingPrice());
+        e.setTradingDate(d.getTradingDate());
+        e.setTradingDay(d.getTradingDay());
+        e.setUpdatedDateTime(d.getUpdatedDateTime());
+        e.setUpdateDay(d.getUpdateDay());
+        return e;
     }
 }

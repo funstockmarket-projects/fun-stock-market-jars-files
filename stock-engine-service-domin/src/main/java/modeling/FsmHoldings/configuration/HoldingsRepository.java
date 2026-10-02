@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface HoldingsRepository extends JpaRepository<UserHoldings, Long> {
+public interface HoldingsRepository extends JpaRepository<UserHoldings, Long> {
 
     Optional<UserHoldings> findById(long l);
     Optional<UserHoldings> findByHoldingUUID(UUID o);

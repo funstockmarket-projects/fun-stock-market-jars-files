@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-interface StockExchangeRepository extends JpaRepository<StockExchange, Long> {
+public interface StockExchangeRepository extends JpaRepository<StockExchange, Long> {
 
     Optional<StockExchange> findById(long id);
     Optional<StockExchange> findByExchangeUuid(UUID exchangeUuid);
@@ -16,3 +16,4 @@ interface StockExchangeRepository extends JpaRepository<StockExchange, Long> {
     List<StockExchange> findByExchangeStatus(PerformanceStatus exchangeStatus);
 }
 
+// 
