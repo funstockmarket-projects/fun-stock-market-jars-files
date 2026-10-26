@@ -280,6 +280,49 @@ public class DomainMapping {
 
         return dto;
     }
+    public static TradeOrderDTO treadOrderDTOWithOutEntitys(TradeOrder entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        TradeOrderDTO dto = new TradeOrderDTO();
+        dto.setClearingBusinessDate(entity.getClearingBusinessDate());
+        dto.setOrderId(entity.getOrderId());
+        dto.setOrginalTradeOrderUUID(entity.getOrginalTradeOrderUUID());
+        dto.setOrderUuid(entity.getOrderUuid());
+        dto.setUserId(entity.getUserId());
+        dto.setStockBucketIdInFsm(entity.getStockBucketIdInFsm());
+        dto.setStockSymbol(entity.getStockSymbol());
+        dto.setQuantity(entity.getQuantity());
+        dto.setTradeAt(entity.getTradeAt());
+        dto.setBrokerId(entity.getBrokerId());
+        dto.setOrderWindow(entity.getOrderWindow());
+        dto.setTradeOrderType(entity.getTradeOrderType());
+        dto.setTradeClearingProcessDone(entity.getTradeClearingProcessDone());
+        dto.setTradeOrderBusinessDateTime(entity.getTradeOrderBusinessDateTime());
+        dto.setTradeOrderDateInBrokerAccount(entity.getTradeOrderDateInBrokerAccount());
+        dto.setFsmTradeOrderRegesterDateTime(entity.getFsmTradeOrderRegesterDateTime());
+        dto.setTradeOrderStatusInOriginalBrokerAccount(entity.getTradeOrderStatusInOriginalBrokerAccount());
+        dto.setTradeOrderStatusInFsmAccount(entity.getTradeOrderStatusInFsmAccount());
+        dto.setStockDetailsAvalibilityInFsm(entity.getStockDetailsAvalibilityInFsm());
+        dto.setStockApprovedStatusInFsm(entity.getStockApprovedStatusInFsm());
+        dto.setFsmStockDescription(entity.getFsmStockDescription());
+        dto.setRecordStatus(entity.getRecordStatus());
+        dto.setRecordCreatedOrModifiedDateTime(entity.getRecordCreatedOrModifiedDateTime());
+        dto.setExchangeId(entity.getExchangeId());
+
+        if(entity.getClearingTradeOrder() != null) {
+            dto.setClearingTradeOrderDTO(
+                
+                entity.getClearingTradeOrder()
+                .stream()
+                .map(n->toDto(n))
+                .toList()
+            );
+        }
+
+        return dto;
+    }
 
     public static ClearingTradeOrder toEntity(ClearingDTO dto) {
         if (dto == null) {
@@ -322,6 +365,7 @@ public class DomainMapping {
         }
         return FSM_StockDetailsBucketDTO.builder()
                 .bucketId(entity.getBucketId())
+                .instrument_key(entity.getInstrument_key())
                 .bucketUuid(entity.getBucketUuid())
                 .stockSymbol(entity.getStockSymbol())
                 .stockName(entity.getStockName())
@@ -352,7 +396,9 @@ public class DomainMapping {
                 .recordCreationOrModifiedDateTime(entity.getRecordCreationOrModifiedDateTime())
                 .recordStatus(entity.getRecordStatus())
                 .fsmUsers(entity.getFsmUsers() != null ? userMapping(entity.getFsmUsers()) : null)
-                .tradeOrder(entity.getTradeOrder() != null ? toDto(entity.getTradeOrder()) : null)
+                .stockApprovalAdminDetails(entity.getStockApprovalAdminDetails() != null ? userMapping(entity.getStockApprovalAdminDetails()) : null)
+                .stockRejectionAdminDetails(entity.getStockRejectionAdminDetails() != null ? userMapping(entity.getStockRejectionAdminDetails()) : null)
+                .tradeOrder(entity.getTradeOrder() != null ? treadOrderDTOWithOutEntitys(entity.getTradeOrder()) : null)
                 .stockExchange(entity.getStockExchange() != null ? stockExchangeMapping(entity.getStockExchange()) : null)
                 .build();
     }
@@ -363,6 +409,7 @@ public class DomainMapping {
         }
         FSM_StockDetailsBucket entity = new FSM_StockDetailsBucket();
         entity.setBucketId(dto.getBucketId());
+        entity.setInstrument_key(dto.getInstrument_key());
         entity.setBucketUuid(dto.getBucketUuid());
         entity.setStockSymbol(dto.getStockSymbol());
         entity.setStockName(dto.getStockName());

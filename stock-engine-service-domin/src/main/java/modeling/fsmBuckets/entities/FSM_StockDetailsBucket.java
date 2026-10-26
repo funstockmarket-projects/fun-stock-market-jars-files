@@ -45,6 +45,9 @@ public class FSM_StockDetailsBucket {
     @EqualsAndHashCode.Include
     private String bucketUuid;
 
+    @Column(name= "INSTRUMENT_KEY", unique=true)
+    private String instrument_key;
+
     @Column(name = "STOCKSYMBOL", nullable = false, length = 50)
     private String stockSymbol;
 
@@ -149,6 +152,16 @@ public class FSM_StockDetailsBucket {
     @JoinColumn(name = "STOCKADDEDTHROUGHUSERID", referencedColumnName = "USERID", insertable = false, updatable = false)
     @JsonIgnore 
     private FSM_Users fsmUsers;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKAPPROVEDBYADMINID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @JsonIgnore
+    private FSM_Users stockApprovalAdminDetails;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKREJECTEDBYADMINID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @JsonIgnore
+    private FSM_Users stockRejectionAdminDetails;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STOCKREGISTERWITHTRADEORDERID", referencedColumnName = "ORDERID", insertable = false, updatable = false)

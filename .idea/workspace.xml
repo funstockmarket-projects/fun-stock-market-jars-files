@@ -4,11 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="" />
+    <list default="true" id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="implemented features">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common-modules/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common-modules/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/funmarket-broker/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-broker/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/git-reader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/git-reader/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/market-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/market-service-domin/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/stock-analysis/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/DTOMapping/DomainMapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/DTOMapping/DomainMapping.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/fsmBuckets/entities/FSM_StockDetailsBucket.java" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/fsmBuckets/entities/FSM_StockDetailsBucket.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/All Projects/stocks/fun-stock-market-jars-files" value="3Hp7wU4FBDES55rUEzXoapZTH2S" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="333" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -22,9 +42,13 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/funstockmarket-projects/fun-stock-market-jars-files.git&quot;,
-    &quot;accountId&quot;: &quot;d4b756bc-4065-4f72-bcf1-8ed83c96a452&quot;
+    &quot;accountId&quot;: &quot;01cf6fa5-2ecf-4fbc-9775-0009ed38bd8e&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1,
   &quot;fromUser&quot;: false
@@ -36,16 +60,29 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;entities&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;last_opened_file_path&quot;: &quot;D:/All Projects/stocks/fun-stock-market-jars-files&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="" />
@@ -54,9 +91,22 @@
       <option name="presentableId" value="Default" />
       <updated>1786553396097</updated>
     </task>
+    <task id="LOCAL-00001" summary="implemented features">
+      <option name="closed" value="true" />
+      <created>1790935571123</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1790935571123</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="implemented features" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented features" />
   </component>
 </project>
