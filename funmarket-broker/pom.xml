@@ -11,7 +11,7 @@
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
-        <version>1.0.23</version>
+        <version>1.0.24</version>
     </parent>
 
     <properties>
@@ -27,12 +27,12 @@
         <dependency>
             <groupId>fun-stock-market.domins</groupId>
             <artifactId>market-service-domin</artifactId>
-            <version>1.0.19</version>
+            <version>1.0.21</version>
         </dependency>
         <dependency>
             <groupId>org.sd.mapper</groupId>
             <artifactId>funmarket-sd-mapper</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.9</version>
         </dependency>
 
         <dependency>

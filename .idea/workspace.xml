@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="implemented features and versions are updated">
+      <change beforePath="$PROJECT_DIR$/common-modules/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common-modules/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/funmarket-broker/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-broker/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/git-reader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/git-reader/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/market-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/market-service-domin/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-analysis/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1793029468277</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="implemented features and versions are updated">
+      <option name="closed" value="true" />
+      <created>1793030070497</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1793030070497</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
