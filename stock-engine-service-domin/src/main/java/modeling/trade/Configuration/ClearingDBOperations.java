@@ -6,7 +6,7 @@ import modeling.globalEnums.YesOrNoStatusFlag;
 import modeling.trade.DTO.ClearingDTO;
 
 /**
- * ClearingDBOperations
+ * ClearingDBOperations abhiram
  */
 public class ClearingDBOperations {
 
@@ -22,8 +22,8 @@ public class ClearingDBOperations {
                 .orElse(null);
     }
 
-    public ClearingDTO findByUserId(Long userId) {
-        return clearingRepository.findByUserId(userId)
+    public ClearingDTO findByClearingUuid(String clearingUuid) {
+        return clearingRepository.findByClearingUuid(clearingUuid)
                 .stream()
                 .map(entity -> DomainMapping.toDto(entity))
                 .findFirst()

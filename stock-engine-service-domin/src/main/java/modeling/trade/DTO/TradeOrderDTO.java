@@ -2,6 +2,7 @@ package modeling.trade.DTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,8 +34,9 @@ public class TradeOrderDTO {
     private String stockSymbol;
     private Long quantity;
     private BigDecimal tradeAt;
-    private Long brokerName;
+    private Long brokerId;
     private OrderWindow orderWindow;
+    private String orginalTradeOrderUUID;
     private TradeOrderType tradeOrderType;
     private YesOrNoStatusFlag tradeClearingProcessDone;
     private LocalDateTime tradeOrderBusinessDateTime;
@@ -47,9 +49,10 @@ public class TradeOrderDTO {
     private String fsmStockDescription;
     private RecordStatus recordStatus;
     private LocalDateTime recordCreatedOrModifiedDateTime;
-    private String exchangeName;
-    private StockExchangeDTO stockExchange;
-    private FSM_UserDetailsDTO fsmUsers;
+    private Long exchangeId;
+    private StockExchangeDTO stockExchangeDTO;
+    private LocalDateTime clearingBusinessDate;
+    private FSM_UserDetailsDTO fsmUsersDTO;
     private BrokerDTO stockBrokerDTO;
-    private ClearingDTO clearingTradeOrder;
+    private List<ClearingDTO> clearingTradeOrderDTO;
 }

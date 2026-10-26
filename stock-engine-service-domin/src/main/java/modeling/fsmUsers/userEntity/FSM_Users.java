@@ -20,7 +20,7 @@ public class FSM_Users {
     private long id;
     @Column(name = "userUUID", unique = true)
     private String userUuid;
-    @Column(name = "FSMPolicyID", nullable = false)
+    @Column(name = "funmarketPolicyID", nullable = false)
     private String funmarketPolicyId = "POLICY001";
     @Column(name = "userName", unique = true, nullable = false)
     private String userName;

@@ -29,86 +29,147 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="FSM_STOCK_DETAILS_BUCKET", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"STOCKSYMBOL", "EXCHANGENAME"}, name = "uq_stock_exchange"),
+@Table(name = "FSM_STOCK_BUCKET", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"STOCKSYMBOL", "EXCHANGENAME"}, name = "uq_stock_exchange")
 }, schema = "ADMIN")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class FSM_StockDetailsBucket {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BUCKETID", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
     private Long bucketId;
+
     @Column(name = "BUCKETUUID", nullable = false, unique = true, length = 255)
     @EqualsAndHashCode.Include
     private String bucketUuid;
-    @Column(name = "STOCKREGISTERWITHTRADORDERID", nullable = false, unique = true)
-    private Long stockRegisterWithTradeOrderId;
-    @Column(name = "STOCKADDEDTHROUGHUSERID", nullable = false, updatable = false)
-    @OneToMany(fetch = FetchType.LAZY)
-    private Long stockAddedThroughUserId;
-    @Column(name = "EXCHANGENAME", nullable = false)
-    @OneToMany (fetch = FetchType.LAZY)
-    private Long exchangeName;
+
+    @Column(name= "INSTRUMENT_KEY", unique=true)
+    private String instrument_key;
+
     @Column(name = "STOCKSYMBOL", nullable = false, length = 50)
     private String stockSymbol;
-    @Column(name = "STOCKNAME", nullable = false, length = 60)
+
+    @Column(name = "STOCKNAME", length=50)
     private String stockName;
-    @Column(name = "FSMSTOCKIDENTIFICATION", unique = true, insertable = false, updatable = false)
+
+    // Fixed: Database schema defines exchangeName as VARCHAR2(10), not Long
+    @Column(name = "EXCHANGENAME", nullable = false, length = 10)
+    private String exchangeName;
+
+    @Column(name = "FSMSTOCKIDENTIFICATION", length = 87, unique = true, insertable = false, updatable = false)
     private String fsmStockIdentification;
-    @Column(name = "ISSTOCKFOUNDINGLOBALMARKET", nullable = false, length = 1)
-    @Enumerated (EnumType.STRING)
-    private YesOrNoStatusFlag isStockFoundInMarket;
+
+    // Writable scalar foreign key IDs (Direct input supported)
+    @Column(name = "STOCKADDEDTHROUGHUSERID", nullable = false)
+    private Long stockAddedThroughUserId;
+
+    @Column(name = "STOCKREGISTERWITHTRADEORDERID", nullable = false, unique = true)
+    private Long stockRegisterWithTradeOrderId;
+
+    @Column(name = "ISSTOCKFOUNDINGLOBALMARKET", length = 1)
+    @Enumerated(EnumType.STRING)
+    private YesOrNoStatusFlag isStockFoundInGlobalMarket;
+
     @Column(name = "LISTEDDATEINFSM")
     private LocalDateTime listedDateInFsm;
+
     @Column(name = "LISTEDDAYINFSM", length = 9)
     @Enumerated(EnumType.STRING)
     private DayOfWeek listedDayInFsm;
+
     @Column(name = "FSMSTOCKPROCESSEDDATETIME", insertable = false)
     private LocalDateTime fsmStockProcessedDateTime;
+
     @Column(name = "FSMSTOCKPROCESSEDDAY", length = 9, insertable = false)
     @Enumerated(EnumType.STRING)
     private DayOfWeek fsmStockProcessedDay;
+
     @Column(name = "STOCKTRADINGSTARTTIME", nullable = false)
     private LocalDateTime stockTradingStartTime;
+
     @Column(name = "STOCKTRADINGENDTIME", nullable = false)
     private LocalDateTime stockTradingEndTime;
+
     @Column(name = "CAPTYPE", nullable = false, length = 5)
     @Enumerated(EnumType.STRING)
-    private CapType capType ;
-    @Column(name = "PROCESSINGSTATUS", nullable = false, length = 15)
+    private CapType capType;
+
+    @Column(name = "PROCESSINGSTATUS", length = 10)
     @Enumerated(EnumType.STRING)
     private ProcessingStatus processingStatus;
-    @Column(name = "STOCKSTATUSINMARKET", nullable = false, length = 15)
+
+    @Column(name = "ISSTOCKSTATUSINMARKET", length = 9)
     @Enumerated(EnumType.STRING)
-    private StockStatusInMarket stockStatusInMarket ;
-    @Column(name = "STOCKSTATUSINFSM", nullable = false, length = 9)
+    private StockStatusInMarket isStockStatusInMarket;
+
+    @Column(name = "STOCKSTATUSINFSM", length = 9)
     @Enumerated(EnumType.STRING)
     private PerformanceStatus stockStatusInFsm;
-    @Column(name = "TRADINGSTATUS", nullable = false, length = 9)
+
+    @Column(name = "ISSTOCKDELISTEDMARKET", length = 9)
+    @Enumerated(EnumType.STRING)
+    private StockStatusInMarket isStockDelistedMarket;
+
+    @Column(name = "TRADINGSTATUS", length = 9)
     @Enumerated(EnumType.STRING)
     private PerformanceStatus tradingStatus;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "STOCKDETAILSAVALIBLEFROMBROKER", nullable = false, length = 20)
+    @Column(name = "STOCKDETAILSAVALIBILITYFROMBROKER", length = 20)
     private StockAvailability stockDetailsAvalibilityFromBroker = StockAvailability.UNAVALIBLE;
-    @OneToMany(fetch = FetchType.LAZY)
-    @MapsId 
-    @JoinColumn (name = "STOCKADDEDTHROUGHUSERID", referencedColumnName = "USERID", insertable = false, updatable = false)
-    @JsonIgnore 
-    private FSM_Users fsm_Users;
-    @OneToOne (fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "STOCKREGISTERWITHTRADORDERID", referencedColumnName = "ORDERID", insertable = false, updatable = false)
-    @JsonIgnore
-    private TradeOrder tradeOrder;
-    @MapsId 
-    @JsonIgnore 
-    @OneToMany (fetch = FetchType.LAZY)
-    @JoinColumn(name = "EXCHANGENAME", referencedColumnName = "exchangeId", insertable = false, updatable = false)
-    private StockExchange stockExchange;
+
+    @Column(name = "STOCKAPPROVALSTATUS", length = 10)
+    @Enumerated(EnumType.STRING)
+    private ProcessingStatus stockApprovalStatus;
+
+    @Column(name = "STOCKAPPROVEDBYADMINID")
+    private Long stockApprovedByAdminId;
+
+    @Column(name = "STOCKAPPROVEDDATETIME")
+    private LocalDateTime stockApprovedDateTime;
+
+    @Column(name = "STOCKREJECTEDBYADMINID")
+    private Long stockRejectedByAdminId;
+
+    @Column(name = "STOCKREJECTEDDATETIME")
+    private LocalDateTime stockRejectedDateTime;
+
+    @Column(name = "STOCKREJECTIONREASON", length = 255)
+    private String stockRejectionReason;
+
     @Column(name = "RECORDCREATIONORMODIFIEDDATETIME", insertable = false, updatable = false)
     private LocalDateTime recordCreationOrModifiedDateTime;
+
     @Column(name = "RECORDSTATUS", length = 10, insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private RecordStatus recordStatus;
+
+    // --- Read-Only Relationships (Avoids write conflicts while allowing object navigation) ---
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKADDEDTHROUGHUSERID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @JsonIgnore 
+    private FSM_Users fsmUsers;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKAPPROVEDBYADMINID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @JsonIgnore
+    private FSM_Users stockApprovalAdminDetails;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKREJECTEDBYADMINID", referencedColumnName = "USERID", insertable = false, updatable = false)
+    @JsonIgnore
+    private FSM_Users stockRejectionAdminDetails;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCKREGISTERWITHTRADEORDERID", referencedColumnName = "ORDERID", insertable = false, updatable = false)
+    @JsonIgnore
+    private TradeOrder tradeOrder;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EXCHANGENAME", referencedColumnName = "EXCHANGENAME", insertable = false, updatable = false)
+    @JsonIgnore 
+    private StockExchange stockExchange;
 }

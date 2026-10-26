@@ -16,7 +16,7 @@ public class FSM_UserDBOperations {
 
     private final FSMUserRepository fsmUserRepository;
 
-    FSM_UserDBOperations(FSMUserRepository fsmUserRepository) {
+    public FSM_UserDBOperations(FSMUserRepository fsmUserRepository) {
         this.fsmUserRepository = fsmUserRepository;
     }
 

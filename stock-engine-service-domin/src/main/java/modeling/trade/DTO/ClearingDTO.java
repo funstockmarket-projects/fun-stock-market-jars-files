@@ -10,6 +10,7 @@ import lombok.Setter;
 import modeling.globalEnums.ProcessingStatus;
 import modeling.globalEnums.RecordStatus;
 import modeling.globalEnums.YesOrNoStatusFlag;
+import modeling.trade.entity.TradeOrder;
 
 @Getter 
 @Setter 
@@ -24,5 +25,6 @@ public class ClearingDTO {
     private String clearingMessage;
     private YesOrNoStatusFlag isRejectedTrade;
     private RecordStatus recordStatus;
+    private TradeOrder tradeOrder;
     private LocalDateTime recordCreatedOrModifiedDateTime;
 }

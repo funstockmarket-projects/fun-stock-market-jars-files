@@ -11,7 +11,7 @@ import modeling.trade.entity.ClearingTradeOrder;
 
 public interface ClearingRepository extends JpaRepository<ClearingTradeOrder, Long> {
     Optional<ClearingTradeOrder> findByClearingId(Long clearingId);
-    List<ClearingTradeOrder> findByUserId(Long userId);
+    List<ClearingTradeOrder> findByClearingUuid(String clearingUuid);
     List<ClearingTradeOrder> findByClearingStatusCode(ProcessingStatus clearingStatusCode);
     List<ClearingTradeOrder> findByIsRejectedTrade(YesOrNoStatusFlag isRejectedTrade);
 }

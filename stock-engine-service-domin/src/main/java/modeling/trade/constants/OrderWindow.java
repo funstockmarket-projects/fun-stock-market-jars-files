@@ -9,7 +9,7 @@ public enum OrderWindow {
 
     public final String value;
 
-    OrderWindow(String string) {
+    private OrderWindow(String string) {
         this.value = string;
     }
 }
