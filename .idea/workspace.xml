@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="implemented features">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common-modules/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/common-modules/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/funmarket-broker/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-broker/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/funmarket-sd-mapper/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/git-reader/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/git-reader/pom.xml" afterDir="false" />
+    <list default="true" id="7ba5cb9e-cbd4-4115-b421-29d71f43612e" name="Changes" comment="implemented features and versions are updated">
       <change beforePath="$PROJECT_DIR$/market-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/market-service-domin/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock-analysis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/stock-analysis/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/DTOMapping/DomainMapping.java" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/DTOMapping/DomainMapping.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/fsmBuckets/entities/FSM_StockDetailsBucket.java" beforeDir="false" afterPath="$PROJECT_DIR$/stock-engine-service-domin/src/main/java/modeling/fsmBuckets/entities/FSM_StockDetailsBucket.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,12 +29,29 @@
     &quot;assignee&quot;: &quot;Ankitha-chikki&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/funstockmarket-projects/fun-stock-market-jars-files.git&quot;,
-    &quot;accountId&quot;: &quot;01cf6fa5-2ecf-4fbc-9775-0009ed38bd8e&quot;
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/funstockmarket-projects/fun-stock-market-jars-files.git",
+    "accountId": "01cf6fa5-2ecf-4fbc-9775-0009ed38bd8e"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "funstockmarket-projects",
+    "repository": "fun-stock-market-jars-files"
   }
-}</component>
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -58,24 +65,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;entities&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/All Projects/stocks/fun-stock-market-jars-files&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "copilot.chat.legacySessionMetadata.migrated": "true",
+    "git-widget-placeholder": "#12 on entities",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/All Projects/stocks/fun-stock-market-jars-files",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -99,7 +106,15 @@
       <option name="project" value="LOCAL" />
       <updated>1790935571123</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="implemented features and versions are updated">
+      <option name="closed" value="true" />
+      <created>1793029468277</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1793029468277</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -107,6 +122,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="implemented features" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented features" />
+    <MESSAGE value="implemented features and versions are updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented features and versions are updated" />
   </component>
 </project>
