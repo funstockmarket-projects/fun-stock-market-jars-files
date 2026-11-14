@@ -3,7 +3,6 @@ package org.app.gitReader.GitReader.gitRetrivels;
 import Modules.CommonModels.enums.FileStatus;
 import Modules.CommonModels.exceptions.ServerExceptions;
 import Modules.CommonModels.pojo.FileName;
-import Modules.CommonModels.retrivels.ApiRetrieve;
 import com.fsm.domainsMapping.businessObject.stockDetailsBO.FileMetadataBO;
 import com.fsm.domainsMapping.constantsBO.MarketEventsBO;
 import com.opencsv.CSVReader;

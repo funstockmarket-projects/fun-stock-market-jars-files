@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.fsm.stock.engins</groupId>
-    <artifactId>stock-engine-service-domin</artifactId>
-    <version>${stock-engine-service-domin}</version>
-
     <parent>
         <groupId>funstock.market</groupId>
         <artifactId>fun-stock-market-jars-file</artifactId>
         <version>1.0.24</version>
     </parent>
+
+    <groupId>org.fsm.stock.engins</groupId>
+    <artifactId>stock-engine-service-domin</artifactId>
+    <version>${stock-engine-service-domin}</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

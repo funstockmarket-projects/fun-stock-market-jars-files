@@ -14,7 +14,7 @@ import java.util.Map;
 @Component(value = "telegramNotification")
 public class TelegramNotification implements NotificationService {
 
-    @Value("${fsm.telegram.notification.token}")
+    @Value("${telegram.token}")
     private String token;
     private final RestTemplate restTemplate;
 
