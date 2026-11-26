@@ -16,6 +16,7 @@ public class FileInformationBO {
 
     private String fileInformationUuid;
     private String fileName;
+    private String branchName;
     private String fileType;
     private Long fileSize;
     private String fileUri;

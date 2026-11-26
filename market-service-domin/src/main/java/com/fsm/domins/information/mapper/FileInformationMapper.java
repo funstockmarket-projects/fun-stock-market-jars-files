@@ -19,6 +19,7 @@ public class FileInformationMapper {
         return new FileInformation(
                 bo.getFileInformationUuid(),
                 bo.getFileName(),
+                bo.getBranchName(),
                 bo.getFileType(),
                 bo.getFileSize(),
                 bo.getFileUri(),
@@ -80,6 +81,7 @@ public class FileInformationMapper {
         FileInformationBO bo = new FileInformationBO();
         bo.setFileInformationUuid(fi.fileInformationUuid());
         bo.setFileName(fi.fileName());
+        bo.setBranchName(fi.branchName());
         bo.setFileType(fi.fileType());
         bo.setFileSize(fi.fileSize());
         bo.setFileUri(fi.fileUri());
