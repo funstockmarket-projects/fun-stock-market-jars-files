@@ -17,7 +17,8 @@ public record FileInformation(
     @Id
     String fileInformationUuid,
     String fileName,
-    String branchName,
+    String fromBranchName,
+    String toBranchName,
     String fileType,
     Long fileSize,
     String fileUri,

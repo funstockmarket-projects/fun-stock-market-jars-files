@@ -10,11 +10,11 @@
         <module name="funmarket-sd-mapper" />
         <module name="common-modules" />
         <module name="stock-engine-service-domin" />
-        <module name="git-reader" />
         <module name="market-service-domin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="git-reader" target="17" />
       <module name="stock-analysis" target="21" />
     </bytecodeTargetLevel>
   </component>

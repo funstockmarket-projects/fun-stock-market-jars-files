@@ -90,12 +90,14 @@ public class FileInformationProcessingEng {
 
         log.info("Starting processing of file information for [ File: {}  time: {} ]", fileName, currentTime());
 
-        return switch (statusOfTheCommitedFile) {
+        FileInformationBO info= switch (statusOfTheCommitedFile) {
             case "added" -> buildNewFileInformation.processNewFileInformation(gitMetaData);
             case "modified" -> handleModifiedFile.processModificationFileInformation(gitMetaData);
             case "removed" -> handleModifiedFile.handleRemovedFile(gitMetaData);
             default -> throw new FunMarketException("Unknown file status in GitHub metadata: " + statusOfTheCommitedFile);
         };
+        info.setBranchName(getStringValue(gitMetaData, "branchName", "No Branch Name"));
+        return info;
     }
 
     public FileInformationBO processFileInformation(FileMetadataBO stockFileDetails, FileClearingBO fileClearing) {
