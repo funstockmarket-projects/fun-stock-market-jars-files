@@ -96,7 +96,8 @@ public class FileInformationProcessingEng {
             case "removed" -> handleModifiedFile.handleRemovedFile(gitMetaData);
             default -> throw new FunMarketException("Unknown file status in GitHub metadata: " + statusOfTheCommitedFile);
         };
-        info.setBranchName(getStringValue(gitMetaData, "branchName", "No Branch Name"));
+        info.setFromBranchName(getStringValue(gitMetaData, "fromBranchName", "No Branch Name"));
+        info.setToBranchName(getStringValue(gitMetaData, "toBranchName", "No To Branch Name"));
         return info;
     }
 
