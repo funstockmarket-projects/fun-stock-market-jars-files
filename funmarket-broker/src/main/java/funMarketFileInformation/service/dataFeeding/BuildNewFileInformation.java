@@ -87,6 +87,8 @@ public class BuildNewFileInformation {
             commitOnMainBranch.put(getStringValue(gitMetadata, "commitMessagesInMainBranch)", "NO_COMMIT_MESSAGE"), fileCreationAndMergedIntoMainBranchDateAndTime);
 
             FileInformationBO informationBO = new FileInformationBO();
+            informationBO.setFromBranchName(getStringValue(gitMetadata, "fromBranchName", "No Branch Name"));
+            informationBO.setToBranchName(getStringValue(gitMetadata, "toBranchName", "No To Branch Name"));
             informationBO.setFileInformationUuid(UUID.randomUUID().toString());
             informationBO.setFileName(fileName);
             informationBO.setFileType(getStringValue(gitMetadata, "fileType", UNKNOWN));

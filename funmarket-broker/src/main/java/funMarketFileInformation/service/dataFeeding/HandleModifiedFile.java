@@ -159,6 +159,9 @@ public class HandleModifiedFile {
         metadata.dayOfWeekSubBranch = metadata.creationDateTimeSubBranch.getDayOfWeek();
         metadata.dayOfWeekMainBranch = metadata.fileCreationMergedDateTime.getDayOfWeek();
 
+        metadata.toBranchName = getStringValue(gitMetadata, "toBranchName", "No To Branch Name");
+        metadata.fromBranchName = getStringValue(gitMetadata, "fromBranchName", "No From Branch Name");
+
         return metadata;
     }
 
@@ -314,5 +317,8 @@ public class HandleModifiedFile {
 
         DayOfWeek dayOfWeekSubBranch;
         DayOfWeek dayOfWeekMainBranch;
+
+        String toBranchName;
+        String fromBranchName;
     }
 }

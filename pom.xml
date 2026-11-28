@@ -22,7 +22,7 @@
         <stock-engine-service-domin>1.0.2</stock-engine-service-domin>
         <common-version>1.0.26</common-version>
         <stock-analysis>1.0.22</stock-analysis>
-        <funmarket-broker>1.0.17</funmarket-broker>
+        <funmarket-broker>1.0.18</funmarket-broker>
     </properties>
 
     <distributionManagement>
